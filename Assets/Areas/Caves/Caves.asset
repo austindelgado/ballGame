@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5508d4ce808e4804f8b13e75e81828be, type: 3}
+  m_Name: Caves
+  m_EditorClassIdentifier: 
+  areaID: 1
+  unlocked: {fileID: 2100000, guid: 168a9f9b58d94274198e2d570f88267d, type: 2}
+  locked: {fileID: 2100000, guid: b3854e4929d865f479b35beff81f8414, type: 2}
+  bg: {fileID: 0}
+  depth: 50
+  maxBlockSize: 4
+  minBlockSize: 3
+  deletePercentage: 0.5
+  chanceUp: 1
+  chanceRight: 1
+  chanceDown: 1
+  chanceLeft: 1
+  enemies:
+  - {fileID: 7667619911853340986, guid: 781bf978252f59f4598826d5c3b19984, type: 3}
+  minEnemies: 0
+  maxEnemies: 0
