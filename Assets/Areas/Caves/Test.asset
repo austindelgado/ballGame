@@ -16,7 +16,7 @@ MonoBehaviour:
   unlocked: {fileID: 2100000, guid: 168a9f9b58d94274198e2d570f88267d, type: 2}
   locked: {fileID: 2100000, guid: b3854e4929d865f479b35beff81f8414, type: 2}
   bg: {fileID: 0}
-  depth: 100
+  depth: 50
   maxBlockSize: 4
   minBlockSize: 3
   deletePercentage: 0.5
@@ -25,6 +25,6 @@ MonoBehaviour:
   chanceDown: 1
   chanceLeft: 1
   enemies:
-  - {fileID: 7667619911853340986, guid: 781bf978252f59f4598826d5c3b19984, type: 3}
-  minEnemies: 8
-  maxEnemies: 12
+  - {fileID: 7667619911853340986, guid: 8bdf21c87c705cc4f99927301f99deb5, type: 3}
+  minEnemies: 10
+  maxEnemies: 15

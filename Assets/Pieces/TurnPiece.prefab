@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8720649976357580635}
   - component: {fileID: 1439864260603784475}
   - component: {fileID: 7451936776990972758}
-  - component: {fileID: 7832732113654655200}
+  - component: {fileID: 5110124143972549266}
   m_Layer: 0
   m_Name: TurnPiece
   m_TagString: Block
@@ -154,16 +154,16 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4, y: 2}
   m_EdgeRadius: 0
---- !u!114 &7832732113654655200
+--- !u!114 &5110124143972549266
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6673664223264046250}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 532f17836b1a5ea44889c5b2c0c1c0dd, type: 3}
+  m_Script: {fileID: 11500000, guid: 44570c18a3f0311448dd669eafee80bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   lockCheck: 0

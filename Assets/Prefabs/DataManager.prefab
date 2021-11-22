@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5597535404067614767
+--- !u!1 &6109536942270195891
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5597535404067614765}
-  - component: {fileID: 5597535404067614764}
+  - component: {fileID: 7999120232349004402}
+  - component: {fileID: 4891036937585081681}
   m_Layer: 0
-  m_Name: Block
-  m_TagString: Block
+  m_Name: DataManager
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5597535404067614765
+--- !u!4 &7999120232349004402
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5597535404067614767}
+  m_GameObject: {fileID: 6109536942270195891}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,30 +31,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5597535404067614764
+--- !u!114 &4891036937585081681
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5597535404067614767}
+  m_GameObject: {fileID: 6109536942270195891}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a52e42075ac62694298d8c5ec5e322b8, type: 3}
+  m_Script: {fileID: 11500000, guid: 0a573e5dc4284463ba53974fd52e55ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 2
-  currentHealth: 0
-  hitThisUpdate: 0
-  textPrefab: {fileID: 4746699166064011162, guid: b9ab2263649a24248bbd4455600555cf, type: 3}
-  textObject: {fileID: 0}
-  hitEffect: {fileID: 2408842227126624787, guid: 71ebf7dcbad636542ab152b060f5e3ec, type: 3}
-  depthMod: 0.25
-  depth: 0
-  locked: 0
-  uniqueMove: 0
-  startingPosition: {x: 0, y: 0}
-  piecePositions: []
-  lowestY: 0
-  unlockedMat: {fileID: 0}
-  lockedMat: {fileID: 0}
+  seed: 0
+  itemList: []
+  ballsToLaunch: 10
+  ballSize: 1
+  aimLength: 0
+  luck: 1
+  blockHealthStartMod: 10
+  areaNum: 0
+  debugMode: 1

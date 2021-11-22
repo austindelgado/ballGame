@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6594252763438804651}
   - component: {fileID: 1980909713708832389}
   - component: {fileID: 809208333461209562}
-  - component: {fileID: -7189809548638267215}
+  - component: {fileID: -4543845366881077827}
   m_Layer: 0
   m_Name: EndPiece
   m_TagString: Block
@@ -127,16 +127,16 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 2
---- !u!114 &-7189809548638267215
+--- !u!114 &-4543845366881077827
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2716618831100083587}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 532f17836b1a5ea44889c5b2c0c1c0dd, type: 3}
+  m_Script: {fileID: 11500000, guid: 44570c18a3f0311448dd669eafee80bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   lockCheck: 0

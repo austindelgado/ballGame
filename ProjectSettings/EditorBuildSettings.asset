@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: c33d768b9f4af2446b0bb42b197d1299
   - enabled: 1
-    path: Assets/Scenes/ScaledUpInGame.unity
+    path: Assets/Scenes/inGame.unity
     guid: 6d37bbaff53ca3b45a023843cff3af2a
   - enabled: 0
     path: Assets/Scenes/inGame.unity

@@ -1,44 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using System;
 
-[CreateAssetMenu()]
-public class Item : ScriptableObject
+public class Item
 {
-    // Base attributes
-    public int ID;
-    public new string name;
-    public Image icon;
-    public string description;
+    public int itemID;
+    public string itemName;
 
-    // Stats
-    public int ballsToLaunchChange;
-    public int aimLengthChange;
+    public List<HitEffect> hitEffects = new List<HitEffect>();
 
-    // Effects
-    public List<OnHitEffect> OnHitEffects = new List<OnHitEffect>();
-
-    public void Activate(GameObject block)
+    public void Equip()
     {
-        Debug.Log("Default activate");
+        Debug.Log(itemName + " equipped!");
 
-        foreach (OnHitEffect effect in OnHitEffects)
-        {
-            effect.Activate(block);
-        }
-    }
+        // I don't think I love it, but this is where items check for other items when being equipped
 
-    public void Initialize()
-    {
-        // Have 2 more of these for the other effects - OnShot, BallEffect
-        foreach (OnHitEffect effect in OnHitEffects)
+        bool addAll = true; // Set false to not include the added item and hitEffects
+
+        if (itemID == 1) // Synergies for ID: 1 - Dagger 
         {
-            GameManager.manager.OnBallHit += effect.Activate;
+            if (GlobalData.Instance.itemList.Contains(ItemDB.items[0])) // This is how you check for the specific item
+            {
+                // Doing this to access data in the subclass seems very messy but it works
+
+                // Added Dagger, add +1 to multipler and double chance, this part could in theory be the individual classes problem, have a Stack()
+                ((Crit)hitEffects[0]).multiplier += 1;
+                ((Crit)hitEffects[0]).chance += 0.05f;
+                addAll = false;
+            }
         }
 
-        // Apply stat changes
-        GlobalData.Instance.ballsToLaunch += ballsToLaunchChange;
-        GlobalData.Instance.aimLength += aimLengthChange;
+        if (addAll)
+        {
+            ballLauncher bLauncher = GameObject.Find("Ball Launcher").GetComponent<ballLauncher>();
+            GlobalData.Instance.itemList.Add(this);
+            foreach (HitEffect hitEffect in hitEffects)
+                bLauncher.defaultHitEffects.Add(hitEffect);
+        }
     }
 }
