@@ -1,0 +1,14 @@
+{
+    "Items": [
+        {
+            "ID": "1",
+            "Name": "Dagger",
+            "Description": "A pointy dagger."
+        },
+        {
+            "ID": "2",
+            "Name": "Poison Dagger",
+            "Description": "A poisoned pointy dagger."
+        }
+    ]
+}
