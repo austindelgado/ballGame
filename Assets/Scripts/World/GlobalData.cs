@@ -16,9 +16,6 @@ public class GlobalData : MonoBehaviour
     public float aimLength;
     public float luck; // Not active
 
-    [Header("Items")]
-    public List<Item> itemList = new List<Item>();
-
     // World related
     [Header("Area")]
     public float blockHealthStartMod;

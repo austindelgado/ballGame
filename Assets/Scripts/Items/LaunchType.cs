@@ -29,12 +29,11 @@ public class TripleShot : LaunchType
 
         GameObject secondBall = GameObject.Instantiate(ball, ball.transform.position, ball.transform.rotation, bLauncher.transform);
         secondBall.GetComponent<ballObject>().currDirection = new Vector2(shotDir.x * Mathf.Cos(10 * Mathf.Deg2Rad) - shotDir.y * Mathf.Sin(10 * Mathf.Deg2Rad), shotDir.x * Mathf.Sin(10 * Mathf.Deg2Rad) + shotDir.y * Mathf.Cos(10 * Mathf.Deg2Rad));
-        secondBall.GetComponent<ballObject>().hitEffects = bLauncher.GetComponent<ballLauncher>().defaultHitEffects;
+        //secondBall.GetComponent<ballObject>().hitEffects = bLauncher.GetComponent<ballLauncher>().defaultHitEffects;
 
         GameObject thirdBall = GameObject.Instantiate(ball, ball.transform.position, ball.transform.rotation, bLauncher.transform);
         thirdBall.GetComponent<ballObject>().currDirection = new Vector2(shotDir.x * Mathf.Cos(-10 * Mathf.Deg2Rad) - shotDir.y * Mathf.Sin(-10 * Mathf.Deg2Rad), shotDir.x * Mathf.Sin(-10 * Mathf.Deg2Rad) + shotDir.y * Mathf.Cos(-10 * Mathf.Deg2Rad));
-        thirdBall.GetComponent<ballObject>().hitEffects = bLauncher.GetComponent<ballLauncher>().defaultHitEffects;
-
+        //thirdBall.GetComponent<ballObject>().hitEffects = bLauncher.GetComponent<ballLauncher>().defaultHitEffects;
     }
 }
 
@@ -53,7 +52,7 @@ public class DoubleShot : LaunchType
 
         GameObject secondBall = GameObject.Instantiate(ball, startingPos - Vector2.Perpendicular(shotDir) * .75f, ball.transform.rotation, bLauncher.transform);
         secondBall.GetComponent<ballObject>().currDirection = shotDir.normalized;
-        secondBall.GetComponent<ballObject>().hitEffects = bLauncher.GetComponent<ballLauncher>().defaultHitEffects;
+        //secondBall.GetComponent<ballObject>().hitEffects = bLauncher.GetComponent<ballLauncher>().defaultHitEffects;
     }
 }
 

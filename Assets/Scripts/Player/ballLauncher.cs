@@ -33,7 +33,6 @@ public class ballLauncher : MonoBehaviour
     public GameObject numUpgradeText;
 
     public LaunchType defaultLaunchEffect = new StraightShot(); 
-    public List<HitEffect> defaultHitEffects = new List<HitEffect>();
 
     // Start is called before the first frame update
     void Start()
@@ -158,7 +157,6 @@ public class ballLauncher : MonoBehaviour
             GameObject ball = Instantiate(ballPrefab, transform);
 
             defaultLaunchEffect.Launch(ball, shotDirection);
-            ball.GetComponent<ballObject>().hitEffects = defaultHitEffects;
             ball.name = "Ball " + (i + 1);
 
             yield return new WaitForSeconds(ballDelay);

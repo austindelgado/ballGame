@@ -25,8 +25,6 @@ public class ballObject : MonoBehaviour
     private float currentHealth;
     public LayerMask ballLayer;
 
-    public List<HitEffect> hitEffects;
-
     [Header("HP Colors")]
     public Color fullHealth;
     public Color five;
@@ -158,9 +156,6 @@ public class ballObject : MonoBehaviour
             {
                 currentHealth = startingHealth;
                 launchManager.GetComponent<ballLauncher>().currentHits++; // This can be decoupled and added to the OnBallHit
-
-                foreach (HitEffect hitEffect in hitEffects)
-                    hitEffect.Hit();
 
                 // Global hit call goes here, pass in collision object
                 //Debug.Log("Block Hit");
