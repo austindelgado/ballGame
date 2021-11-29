@@ -10,7 +10,15 @@ public class GameEvents : MonoBehaviour
 
     private void Awake()
     {
-        current = this;
+        if (current == null)
+        {
+            DontDestroyOnLoad(gameObject);
+            current = this;
+        }
+        else if (current != this)
+        {
+            Destroy(gameObject);
+        }
     }
 
     public event Action onBlockHit;
@@ -21,6 +29,37 @@ public class GameEvents : MonoBehaviour
         if (onBlockHit != null)
         {
             onBlockHit();
+        }
+    }
+
+    // Block break event, primarily used to call Bounce() on all balls
+    // Also calls, check gravity on all blocks
+    // Potentially add parameter to know which block
+    public event Action OnBlockBreak;
+    public void BlockBreak(blockObject block)
+    {
+        Debug.Log(block.name + " broke!");
+        if (OnBlockBreak != null)
+            OnBlockBreak();
+    }
+
+    // Hit events need to receive what object they are hitting
+    public event Action<GameObject> OnBallHit;
+    public void BallHit(GameObject collision)
+    {
+        //Debug.Log(collision.name);
+        if (OnBallHit != null)
+        {
+            OnBallHit(collision);
+        }
+        else
+        {
+            // Check if collision is with a block
+            if (collision.tag == "Block" || collision.tag == "Enemy")
+            {
+                // Fill in with player default damage
+                collision.GetComponent<blockObject>().BlockHit(1);
+            }
         }
     }
 }

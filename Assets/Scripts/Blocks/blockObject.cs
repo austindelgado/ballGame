@@ -17,6 +17,7 @@ public class blockObject : MonoBehaviour
     private float rng;
 
     public bool locked;
+    public bool gemmed;
     public bool uniqueMove;
 
     public Vector2 startingPosition;
@@ -45,6 +46,8 @@ public class blockObject : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gemmed = true;
+
         Texture();
         SpawnText();
         FindLowestY();
@@ -142,7 +145,11 @@ public class blockObject : MonoBehaviour
         if (currentHealth <= 0)
         {
             GridManager.manager.BlockDestroyed(gameObject);
-            GameManager.manager.BlockBreak(); // Let GameManager know a block broke
+            GameEvents.current.BlockBreak(this); // Let GameManager know a block broke
+
+            // If we have gems, add them
+            if (gemmed)
+                GlobalData.Instance.AddGems((int)(depth * .25f));
         }
     }
 

@@ -49,7 +49,7 @@ MonoBehaviour:
   ballSize: 1
   aimLength: 0
   luck: 1
-  gems: 0
+  gems: 10
   blockHealthStartMod: 10
   areaNum: 0
   debugMode: 1

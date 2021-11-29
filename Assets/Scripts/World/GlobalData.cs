@@ -6,6 +6,7 @@ using UnityEngine;
 public class GlobalData : MonoBehaviour
 {
     public static GlobalData Instance;
+    public Inventory playerInventory = new Inventory();
 
     public int seed;
 
@@ -52,7 +53,7 @@ public class GlobalData : MonoBehaviour
     void Start()
     {
         ballsToLaunch = 3;
-        gems = 0;
+        gems = 10;
     }
 
     void Update()
@@ -71,5 +72,11 @@ public class GlobalData : MonoBehaviour
 
         ballsToLaunch = 3;
         gems = 0;
+    }
+
+    // I don't like player specific stuff being here, but GlobalData maybe shouldn't exist at all anyways
+    public void AddGems(int numGems)
+    {
+        gems += numGems;
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 
 // hi bubba! ;*
 
+[System.Serializable]
 public abstract class Item
 {
     public abstract void Activate(); // Stick GameEvents you need to subscribe to in here, this needs to be called by wherever the item is added.

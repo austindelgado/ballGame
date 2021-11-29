@@ -13,7 +13,7 @@ public class StraightShot : LaunchType
 {
     public override void Launch(GameObject ball, Vector2 shotDir)
     {
-        Debug.Log("Default Launch!");
+        //Debug.Log("Default Launch!");
         ball.GetComponent<ballObject>().currDirection = shotDir.normalized;
     }
 }
