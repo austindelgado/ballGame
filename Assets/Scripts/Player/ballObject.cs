@@ -37,7 +37,7 @@ public class ballObject : MonoBehaviour
     void Start()
     {
         // Subscribe to blockBreak
-        GameManager.manager.OnBlockBreak += this.Bounce;
+        GameEvents.current.OnBlockBreak += this.Bounce;
 
         launchManager = GameObject.Find("Ball Launcher");
         shotSpeed = launchManager.GetComponent<ballLauncher>().ballSpeed;
@@ -48,7 +48,7 @@ public class ballObject : MonoBehaviour
 
     void OnDestroy()
     {
-        GameManager.manager.OnBlockBreak -= this.Bounce;
+        GameEvents.current.OnBlockBreak -= this.Bounce;
     }
 
     void Update()
@@ -159,7 +159,7 @@ public class ballObject : MonoBehaviour
 
                 // Global hit call goes here, pass in collision object
                 //Debug.Log("Block Hit");
-                GameManager.manager.BallHit(collision.gameObject.transform.parent.gameObject);
+                GameEvents.current.BallHit(collision.gameObject.transform.parent.gameObject);
             }
         }
         else if (collision.gameObject.tag == "Enemy") // It only gets worse
@@ -171,7 +171,7 @@ public class ballObject : MonoBehaviour
 
                 // Global hit call goes here, pass in collision object
                 //Debug.Log("Block Hit");
-                GameManager.manager.BallHit(collision.gameObject.transform.parent.gameObject.transform.parent.gameObject);
+                GameEvents.current.BallHit(collision.gameObject.transform.parent.gameObject.transform.parent.gameObject);
             }
         }
         else
@@ -180,7 +180,7 @@ public class ballObject : MonoBehaviour
             if (currentHealth <= 0)
                 Destroy(gameObject);
 
-            GameManager.manager.BallHit(collision.gameObject);
+            GameEvents.current.BallHit(collision.gameObject);
         }
     }
 

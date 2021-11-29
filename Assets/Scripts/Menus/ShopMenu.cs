@@ -21,6 +21,6 @@ public class ShopMenu : MonoBehaviour
 
     public void Continue()
     {
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 }

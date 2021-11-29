@@ -53,7 +53,7 @@ public class GlobalData : MonoBehaviour
     void Start()
     {
         ballsToLaunch = 3;
-        gems = 10;
+        gems = 0;
     }
 
     void Update()

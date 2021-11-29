@@ -91,14 +91,6 @@ public class blockObject : MonoBehaviour
         // This definitely doesn't need to happen every frame
         if (textObject != null)
             textObject.GetComponent<TMP_Text>().text = currentHealth.ToString();
-
-        // This either
-        if (currentHealth <= 0)
-        {
-            GridManager.manager.BlockDestroyed(gameObject);
-            //Destroy(gameObject);
-            GameManager.manager.BlockBreak(); // Let GameManager know a block broke
-        }
     }
 
     void FixedUpdate()
@@ -142,15 +134,22 @@ public class blockObject : MonoBehaviour
 
         hitThisUpdate = true;
         currentHealth -= damage;
-        if (currentHealth <= 0)
-        {
-            GridManager.manager.BlockDestroyed(gameObject);
-            GameEvents.current.BlockBreak(this); // Let GameManager know a block broke
 
-            // If we have gems, add them
-            if (gemmed)
-                GlobalData.Instance.AddGems((int)(depth * .25f));
-        }
+        GameEvents.current.BlockHit(this);
+
+        if (currentHealth <= 0)
+            BlockBreak();
+    }
+
+    public void BlockBreak()
+    {
+        // If we have gems, add them
+        if (gemmed)
+            GlobalData.Instance.AddGems(1);
+
+        GridManager.manager.BlockDestroyed(gameObject);
+        Destroy(gameObject);
+        GameEvents.current.BlockBreak(this);
     }
 
     public void Lock()
@@ -168,7 +167,6 @@ public class blockObject : MonoBehaviour
             }
         }
     }
-
 
     public virtual IEnumerator Move()
     {

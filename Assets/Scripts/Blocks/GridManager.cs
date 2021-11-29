@@ -87,6 +87,7 @@ public class GridManager : MonoBehaviour
         RemoveBlocks();
         MoveBlocks(true);
         CheckAllGravity(true);
+        CheckAllGravity(true); // Still random floating blocks for some reason
     }
 
     public void SpawnBlocks(int buffer)
@@ -266,7 +267,7 @@ public class GridManager : MonoBehaviour
                 // Minimum 2 pieces for a block
                 if (piecePos.Count < currentArea.minBlockSize)
                 {
-                    Remove(newBlock);
+                    Remove(newBlock, true);
                     return;
                 }
             }
@@ -405,18 +406,6 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    /*
-     *  for (int y = buffer; y < rows; y++)
-        {
-            // Columns = x
-            for (int x = 0; x < cols; x++)
-            {
-                if (grid[x, y] == null)
-                    SpawnBlock(x, y);
-            }
-        }
-     */
-
     private void SpawnEnemies(int buffer)
     {
         // Decide number of enemies that we want in the level, base off a level stat?
@@ -424,7 +413,6 @@ public class GridManager : MonoBehaviour
         // Create the enemy object, call spawn(), have this return true if spawn successful
         // Otherwise, try a different position
         // Only spawn enemies below a certain threshold, shouldn't see them from starting screen
-
 
         // Things break when you do 1,1, no clue why
         int toSpawn = Random.Range(currentArea.minEnemies, currentArea.maxEnemies);
@@ -446,18 +434,6 @@ public class GridManager : MonoBehaviour
         newEnemy.transform.parent = gameObject.transform.GetChild(1);
         newEnemy.name = currentArea.enemies[0].name;
 
-        /*
-        // Loop across the pieces and see if they fit on the grid, delete blocks in the way
-        foreach (Vector2 piece in newEnemy.GetComponent<blockObject>().piecePositions)
-        {
-            if (y + piece.y - 1 < -1 || x + piece.x + 1 > cols || y + piece.y  + 1 > rows || x + piece.x  - 1 < -1) // Out of bounds
-            {
-                Destroy(newEnemy);
-                return;
-            }
-        }
-        */
-
         // If we make it here, we're spawning this enemy
         // Go over all pieces, delete any blocks there
 
@@ -465,7 +441,7 @@ public class GridManager : MonoBehaviour
         //Debug.Log("Adding enemy " + newEnemy.name);
 
         if (grid[x, y] != null)
-            Remove(grid[x, y]);
+            Remove(grid[x, y], true);
 
         enemies.Add(newEnemy);
         blocks.Add(newEnemy);
@@ -477,7 +453,7 @@ public class GridManager : MonoBehaviour
             Vector2 piece = newEnemy.GetComponent<blockObject>().piecePositions[i];
 
             if (grid[(int)piece.x + x, (int)piece.y + y] != null)
-                Remove(grid[(int)piece.x + x, (int)piece.y + y]);
+                Remove(grid[(int)piece.x + x, (int)piece.y + y], true);
 
             grid[(int)piece.x + x, (int)piece.y + y] = newEnemy;
             newEnemy.GetComponent<blockObject>().piecePositions[i] = new Vector2((int)piece.x + x, (int)piece.y + y);
@@ -499,14 +475,14 @@ public class GridManager : MonoBehaviour
             // Get a random block
             GameObject currentBlock = blocks[Random.Range(0, blocks.Count)];
             if (currentBlock.tag == "Block")
-                Remove(currentBlock);
+                Remove(currentBlock, true);
             else
                 toRemove++;
         }
     }
 
     // Removes specific block from the grid/list
-    public void Remove(GameObject block)
+    public void Remove(GameObject block, bool gridDestroy)
     {
         // Check if this is also an enemy
         if (block.tag == "Enemy")
@@ -519,18 +495,17 @@ public class GridManager : MonoBehaviour
             grid[(int)piecePos.x, (int)piecePos.y] = null;
         }
 
-        //Debug.Log(block.name + " removed");
-        Destroy(block);
-
-        // Move this to the the end of the CheckAllGravity()?
-        GameManager.manager.BlockBreak();
+        if (gridDestroy)
+            Destroy(block);
+        else
+            CheckAllGravity(false);
     }
 
+    // This is called for playerDestroyed blocks
     public void BlockDestroyed(GameObject block)
     {
-        //Debug.Log("Block Destroyed");
-        Remove(block);
-        CheckAllGravity(false);
+        Debug.Log("GridMananger: Block Destroyed");
+        Remove(block, false);
     }
 
     // Change this bool to an override or something? IDK
@@ -564,7 +539,7 @@ public class GridManager : MonoBehaviour
                         if (blocks.IndexOf(grid[(int)piecePos.x, (int)piecePos.y + 1]) < blocks.IndexOf(grid[(int)piecePos.x, (int)piecePos.y]))
                         {
                             //Debug.Log(block.name + " is supported by higher block, checking " + grid[(int)piecePos.x, (int)piecePos.y + 1].name);
-                            if (!CheckBlockGravity(grid[(int)piecePos.x, (int)piecePos.y + 1])) // I don't like this but need to jump two places when iterating
+                            if (!CheckBlockGravity(grid[(int)piecePos.x, (int)piecePos.y + 1], gridSpawn)) // I don't like this but need to jump two places when iterating
                                 i--;
                         }
                         else
@@ -584,25 +559,14 @@ public class GridManager : MonoBehaviour
                 }
                 else // Destroy
                 {
-                    Remove(block);
+                    block.GetComponent<blockObject>().BlockBreak(); // Player destroyed
                     //Debug.Log(block.name + " is not supported");
-                }
-            }
-            else // Supported
-            {
-                if (gridSpawn) // Chance to lock
-                {
-
-                }
-                else // Nothing
-                { 
-                    //Debug.Log(block.name + " is supported");
                 }
             }
         }   
     }
 
-    public bool CheckBlockGravity(GameObject block)
+    public bool CheckBlockGravity(GameObject block, bool gridSpawn)
     {
         // Don't bother checking if it's locked
         if (block.GetComponent<blockObject>().locked)
@@ -623,7 +587,10 @@ public class GridManager : MonoBehaviour
 
         if (!supported)
         {
-            Remove(block);
+            if (gridSpawn)
+                Remove(block, true);
+            else
+                block.GetComponent<blockObject>().BlockBreak(); // Player destroyed
             //Debug.Log(block.name + " is NOT supported by after check");
             return false;
         }

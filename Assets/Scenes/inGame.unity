@@ -1244,7 +1244,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab9fe7237ef2cf14e9e8bba3a6597f48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
 --- !u!4 &868484531
 Transform:
   m_ObjectHideFlags: 0
@@ -2253,6 +2252,10 @@ PrefabInstance:
       propertyPath: numGemsText
       value: 
       objectReference: {fileID: 1745049785}
+    - target: {fileID: 4891036937585081681, guid: 9194a2e4337a8473b96aa9c9bb70f8ee, type: 3}
+      propertyPath: blockHealthStartMod
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6109536942270195891, guid: 9194a2e4337a8473b96aa9c9bb70f8ee, type: 3}
       propertyPath: m_Name
       value: DataManager

@@ -6,6 +6,6 @@ public class ItemTester : MonoBehaviour
 {   
     public void OnBlockHit()
     {
-        GameEvents.current.BlockHit();
+        GameEvents.current.BlockHit(null);
     }
 }

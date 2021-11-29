@@ -22,7 +22,7 @@ public class GameEvents : MonoBehaviour
     }
 
     public event Action onBlockHit;
-    public void BlockHit()
+    public void BlockHit(blockObject block)
     {
         Debug.Log("OnBlockHit activated!");
         
@@ -38,7 +38,7 @@ public class GameEvents : MonoBehaviour
     public event Action OnBlockBreak;
     public void BlockBreak(blockObject block)
     {
-        Debug.Log(block.name + " broke!");
+        Debug.Log("GameEvent: " + block.name + " broke!");
         if (OnBlockBreak != null)
             OnBlockBreak();
     }
