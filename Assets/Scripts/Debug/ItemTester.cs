@@ -4,17 +4,13 @@ using UnityEngine;
 
 public class ItemTester : MonoBehaviour
 {   
-    public TextAsset items;
+    Inventory playerInventory = new Inventory();
+    public int id = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        string text = items.text;
-        Debug.Log(text);
-
-        ItemData[] itemData = JsonHelper.FromJson<ItemData>(text);
-        Debug.Log(itemData[0].Description);
-        Debug.Log(itemData[1].Description);
+        playerInventory.Add(id);
     }
 
     // Update is called once per frame

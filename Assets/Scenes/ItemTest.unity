@@ -775,22 +775,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4891036937585081681, guid: 9194a2e4337a8473b96aa9c9bb70f8ee, type: 3}
-      propertyPath: aimLength
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4891036937585081681, guid: 9194a2e4337a8473b96aa9c9bb70f8ee, type: 3}
-      propertyPath: blockHealthStartMod
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 4891036937585081681, guid: 9194a2e4337a8473b96aa9c9bb70f8ee, type: 3}
-      propertyPath: itemList.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4891036937585081681, guid: 9194a2e4337a8473b96aa9c9bb70f8ee, type: 3}
-      propertyPath: itemList.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 6695e8ddf1e9f414c930a8ac9f631d7c, type: 2}
     - target: {fileID: 6109536942270195891, guid: 9194a2e4337a8473b96aa9c9bb70f8ee, type: 3}
       propertyPath: m_Name
       value: GlobalData
@@ -885,7 +869,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab9fe7237ef2cf14e9e8bba3a6597f48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  items: {fileID: 4900000, guid: 9bba579eb38004e29b844be8dd07dbd1, type: 3}
+  id: 1
 --- !u!1 &1917026814
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,11 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Hi bella!
+
+// hi bubba! ;*
+
 public abstract class Item
 {
-    // Equips this item and adds to player itemList
-    public void Equip()
+    public abstract void Activate(); // Stick GameEvents you need to subscribe to in here, this needs to be called by wherever the item is added.
+    // This should also handle any item synergies that need to be hardcoded
+
+    public abstract void Deactivate(); // Called when an item is removed, needs to remove event subscriptions
+
+    public abstract void Trigger(); // Passed as the function for the event manager
+
+    public virtual void Stack() // Used to implement custom stacking for items
     {
-        
+        Debug.Log("No stacking implemented");
     }
 }
