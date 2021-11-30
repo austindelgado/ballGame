@@ -22,6 +22,8 @@ public class Worm : blockObject
     // Start is called before the first frame update
     void Start()
     {
+        gemmed = true; // Worms gemmed by default
+
         // Pick random head, maybe change to head closer to middle?
 
         float rng = Random.Range(.75f, 1.25f);
@@ -32,7 +34,9 @@ public class Worm : blockObject
 
 
         // Improve health code at some point please, turn into a single function in the blockObject class
-        depth = piecePositions[0].y;
+        AreaDatabase AreaDB = Resources.Load<AreaDatabase>("AreaDB");
+        depthMod = AreaDB.areas[0].depthMod;
+        depth = piecePositions[0].y + GlobalData.Instance.playerDepth;
 
         // Check what this is being based off initially, seems like it's coming from the blockCount?
 

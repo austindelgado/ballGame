@@ -31,6 +31,8 @@ public class blockObject : MonoBehaviour
     [Header("Materials")]
     public Material unlockedMat;
     public Material lockedMat;
+    public Material gemUnlockedMat;
+    public Material gemLockedMat;
 
     public enum dotType {Bleed, Poison, Burn};
 
@@ -43,15 +45,16 @@ public class blockObject : MonoBehaviour
     {
         // Grab the textures
         AreaDatabase AreaDB = Resources.Load<AreaDatabase>("AreaDB");
+        depthMod = AreaDB.areas[0].depthMod;
         unlockedMat = AreaDB.areas[0].unlocked;
         lockedMat = AreaDB.areas[0].locked;
+        gemUnlockedMat = AreaDB.areas[0].gemUnlocked;
+        gemLockedMat = AreaDB.areas[0].gemLocked;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        gemmed = true; // This needs to be added in level gen
-
         Texture();
         SpawnText();
         FindLowestY();
@@ -69,7 +72,7 @@ public class blockObject : MonoBehaviour
         else
             rng = Random.Range(1.5f, 2f);
 
-        depth = piecePositions[0].y;
+        depth = piecePositions[0].y + GlobalData.Instance.playerDepth;
 
         // Check what this is being based off initially, seems like it's coming from the blockCount?
 
@@ -108,7 +111,14 @@ public class blockObject : MonoBehaviour
         foreach (Transform piece in transform)
         {
             if (!piece.GetComponent<pieceObject>().lockCheck)
-                piece.gameObject.GetComponent<SpriteRenderer>().material = unlockedMat;
+            {
+                if (gemmed)
+                    piece.gameObject.GetComponent<SpriteRenderer>().material = gemUnlockedMat;
+                else
+                    piece.gameObject.GetComponent<SpriteRenderer>().material = unlockedMat;
+            }
+            else if (gemmed)
+                piece.gameObject.GetComponent<SpriteRenderer>().material = gemLockedMat;
         }
     }
 
@@ -191,7 +201,7 @@ public class blockObject : MonoBehaviour
 
         // If we have gems, add them
         if (gemmed)
-            GlobalData.Instance.AddGems(1);
+            GlobalData.Instance.AddGems((int)(depth / 2));
 
         GridManager.manager.BlockDestroyed(gameObject);
         Destroy(gameObject);

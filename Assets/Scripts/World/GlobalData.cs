@@ -18,6 +18,7 @@ public class GlobalData : MonoBehaviour
     public float aimLength;
     public float luck; // Not active
     public int gems;
+    public int playerDepth;
 
     // World related
     [Header("Area")]
@@ -25,7 +26,6 @@ public class GlobalData : MonoBehaviour
     public int areaNum;
 
     public bool debugMode;
-    public GameObject numGemsText;
 
     void Awake()
     {
@@ -54,12 +54,6 @@ public class GlobalData : MonoBehaviour
     {
         ballsToLaunch = 3;
         gems = 0;
-    }
-
-    void Update()
-    {
-        if (numGemsText != null)
-            numGemsText.GetComponent<TMP_Text>().text = gems.ToString();
     }
 
     void Reset()

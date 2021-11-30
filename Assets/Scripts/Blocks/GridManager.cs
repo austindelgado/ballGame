@@ -108,6 +108,9 @@ public class GridManager : MonoBehaviour
     {
         if (blocks.Count == 0)
         {
+            // Store playerDepth
+            GlobalData.Instance.playerDepth += playerDepth;
+
             StartCoroutine(GameManager.manager.LevelWon());
             yield break;
         }
@@ -403,6 +406,10 @@ public class GridManager : MonoBehaviour
                 newPiece.transform.parent = newBlock.transform;
             }
         }
+
+        // This block is staying, give it a chance to have gems
+        if (Random.value <= .2)
+            newBlock.GetComponent<blockObject>().gemmed = true;
     }
 
     private void SpawnEnemies(int buffer)
@@ -473,7 +480,7 @@ public class GridManager : MonoBehaviour
         {
             // Get a random block
             GameObject currentBlock = blocks[Random.Range(0, blocks.Count)];
-            if (currentBlock.tag == "Block")
+            if (currentBlock.tag == "Block" && !currentBlock.GetComponent<blockObject>().gemmed)
                 Remove(currentBlock, true);
             else
                 toRemove++;

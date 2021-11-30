@@ -9,10 +9,13 @@ public class Area : ScriptableObject
     [Header("Sprites")]
     public Material unlocked;
     public Material locked;
+    public Material gemUnlocked;
+    public Material gemLocked;
     public Texture bg;
 
     [Header("Level Generation")]
     public int depth;
+    public float depthMod;
     public int maxBlockSize;
     public int minBlockSize;
     public float deletePercentage;
