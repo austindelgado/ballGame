@@ -125,17 +125,22 @@ public class blockObject : MonoBehaviour
         textObject = Instantiate(textPrefab, highestChild.position, Quaternion.Euler(0, 0, 0), gameObject.transform);
     }
 
-    public void BlockHit(int damage)
+    public void BlockHit()
     {
         // This approach is ugly, find a way to fix the colliders down the road
         // This same thing is being done for ball collisions for scaling
         // It's bad
         //Debug.Log("Block hit for " + damage + " damage");
 
-        hitThisUpdate = true;
-        currentHealth -= damage;
+        AddDamage(1);
 
+        hitThisUpdate = true;
         GameEvents.current.BlockHit(this);
+    }
+
+    public void AddDamage(int damage)
+    {
+        currentHealth -= damage;
 
         if (currentHealth <= 0)
             BlockBreak();

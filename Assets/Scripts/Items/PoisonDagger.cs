@@ -8,15 +8,15 @@ public class PoisonDagger : Item
 
     public override void Activate()
     {
-        GameEvents.current.onBlockHit += Trigger;
+        GameEvents.current.onBlockHit += Poison;
     }
 
     public override void Deactivate()
     {
-        GameEvents.current.onBlockHit -= Trigger;
+        GameEvents.current.onBlockHit -= Poison;
     }
 
-    public override void Trigger()
+    public void Poison(blockObject block)
     {
         Debug.Log("Poison dagger hit for " + damage);
     }

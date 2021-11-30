@@ -48,7 +48,6 @@ public class GridManager : MonoBehaviour
     {
         if (manager == null)
         {
-            // DontDestroyOnLoad(gameObject);
             manager = this;
         }
         else if (manager != this)

@@ -555,7 +555,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e95ede6da9754d4bb3f901efff5edf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseSpeed: 0.2
+  baseSpeed: 0.05
   bgLayers:
   - {fileID: 1449443402}
   - {fileID: 139378291}

@@ -34,7 +34,7 @@ public class TerrainManager : MonoBehaviour
 
         Coroutine[] coroutines = new Coroutine[bgLayers.Count];
         for (int i = 0; i < bgLayers.Count; i++)
-            coroutines[i] = StartCoroutine(bgLayers[i].GetComponent<terrainMover>().Move(worldSpacing, baseSpeed));
+            coroutines[i] = StartCoroutine(bgLayers[i].GetComponent<terrainMover>().Move(worldSpacing, baseSpeed * worldSpacing)); // Add some sort of easing here?
         for (int i = 0; i < coroutines.Length; i++)
             yield return coroutines[i];
 

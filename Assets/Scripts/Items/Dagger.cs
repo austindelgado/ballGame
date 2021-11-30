@@ -6,16 +6,17 @@ public class Dagger : Item
 {
     public override void Activate()
     {
-        GameEvents.current.onBlockHit += Trigger;
+        GameEvents.current.onBlockHit += BonusDamage;
     }
 
     public override void Deactivate()
     {
-        GameEvents.current.onBlockHit -= Trigger;
+        GameEvents.current.onBlockHit -= BonusDamage;
     }
 
-    public override void Trigger()
+    public void BonusDamage(blockObject block)
     {
         Debug.Log("Dagger hit!");
+        block.AddDamage(100);
     }
 }

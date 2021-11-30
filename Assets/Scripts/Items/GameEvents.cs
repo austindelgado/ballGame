@@ -21,14 +21,13 @@ public class GameEvents : MonoBehaviour
         }
     }
 
-    public event Action onBlockHit;
+    public event Action<blockObject> onBlockHit;
     public void BlockHit(blockObject block)
     {
         Debug.Log("OnBlockHit activated!");
-        
         if (onBlockHit != null)
         {
-            onBlockHit();
+            onBlockHit(block);
         }
     }
 
@@ -58,7 +57,7 @@ public class GameEvents : MonoBehaviour
             if (collision.tag == "Block" || collision.tag == "Enemy")
             {
                 // Fill in with player default damage
-                collision.GetComponent<blockObject>().BlockHit(1);
+                collision.GetComponent<blockObject>().BlockHit();
             }
         }
     }

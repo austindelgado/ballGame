@@ -14,8 +14,6 @@ public abstract class Item
 
     public abstract void Deactivate(); // Called when an item is removed, needs to remove event subscriptions
 
-    public abstract void Trigger(); // Passed as the function for the event manager
-
     public virtual void Stack() // Used to implement custom stacking for items
     {
         Debug.Log("No stacking implemented");
