@@ -90,9 +90,13 @@ public class GameManager : MonoBehaviour
             yield return StartCoroutine(GridManager.manager.MoveEnemies());
         //Debug.Log("Enemy done moving");
 
+        GameEvents.current.EnemyTurnEnd();
+        
         // End enemy turn
         if (state == GameState.ENEMYTURN)
+        {
             StartCoroutine(PlayerTurn());
+        }
     }
 
     // Won and Lost should be called from GridManager

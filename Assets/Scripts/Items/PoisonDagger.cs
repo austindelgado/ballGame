@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PoisonDagger : Item
 {
-    int damage = 5;
+    int damage = 1;
 
     public override void Activate()
     {
@@ -19,6 +19,7 @@ public class PoisonDagger : Item
     public void Poison(blockObject block)
     {
         Debug.Log("Poison dagger hit for " + damage);
+        block.AddDOT(damage, 3, blockObject.dotType.Bleed);
     }
 
     public override void Stack()

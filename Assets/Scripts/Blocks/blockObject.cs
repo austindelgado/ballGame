@@ -20,6 +20,9 @@ public class blockObject : MonoBehaviour
     public bool gemmed;
     public bool uniqueMove;
 
+    private int bleedDuration;
+    private int bleedDamage;
+
     public Vector2 startingPosition;
     public List<Vector2> piecePositions = new List<Vector2>(); // Update these to include startingPosition?
 
@@ -29,6 +32,7 @@ public class blockObject : MonoBehaviour
     public Material unlockedMat;
     public Material lockedMat;
 
+    public enum dotType {Bleed, Poison, Burn};
 
     // It's a mess in here
         // Rewrite health system and what the value is based off, base depthmod off the level data
@@ -46,7 +50,7 @@ public class blockObject : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gemmed = true;
+        gemmed = true; // This needs to be added in level gen
 
         Texture();
         SpawnText();
@@ -146,8 +150,45 @@ public class blockObject : MonoBehaviour
             BlockBreak();
     }
 
+    public void AddDOT(int damagePerTick, int turnDuration, dotType type)
+    {
+        if (type == dotType.Bleed)
+        {
+            // Subscribe to enemyTurnEnd
+            if (bleedDuration == 0)
+                GameEvents.current.onEnemyTurnEnd += DotTick;
+
+            // Change text color
+            textObject.GetComponent<TextMeshPro>().color = Color.red;
+
+            bleedDamage = damagePerTick;
+            bleedDuration = turnDuration;
+        }
+    }
+
+    public void DotTick()
+    {
+        Debug.Log("BleedDamage: " + bleedDamage + ", bleedDuration: " + bleedDuration);
+
+        if (bleedDuration > 1)
+        {
+            AddDamage(bleedDamage);
+            bleedDuration--;
+        }
+        else
+        {
+            AddDamage(bleedDamage);
+            bleedDamage = 0;
+            GameEvents.current.onEnemyTurnEnd -= DotTick;
+            textObject.GetComponent<TextMeshPro>().color = Color.white;
+        }
+    }
+
     public void BlockBreak()
     {
+        if (bleedDuration >= 0)
+            GameEvents.current.onEnemyTurnEnd -= DotTick;
+
         // If we have gems, add them
         if (gemmed)
             GlobalData.Instance.AddGems(1);

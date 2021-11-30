@@ -21,14 +21,20 @@ public class GameEvents : MonoBehaviour
         }
     }
 
+    public event Action onEnemyTurnEnd;
+    public void EnemyTurnEnd()
+    {
+        Debug.Log("OnEnemyTurnEnd activated!");
+        if (onEnemyTurnEnd != null)
+            onEnemyTurnEnd();
+    }
+
     public event Action<blockObject> onBlockHit;
     public void BlockHit(blockObject block)
     {
         Debug.Log("OnBlockHit activated!");
         if (onBlockHit != null)
-        {
             onBlockHit(block);
-        }
     }
 
     // Block break event, primarily used to call Bounce() on all balls
