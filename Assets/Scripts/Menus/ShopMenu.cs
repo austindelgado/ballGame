@@ -12,10 +12,14 @@ public class ShopMenu : MonoBehaviour
 
     public void Start()
     {
+        List<ItemData> itemPool = itemList;
+
         // Assign item to each shop slot, these are hardcoded now but should be dynamic later - items that add additional shop slot or something
         for (int i = 0; i < slots.Count; i ++)
         {
-            slots[i].AssignItem(itemList[i]);
+            int toPick = Random.Range(0, itemPool.Count);
+            slots[i].AssignItem(itemPool[toPick]);
+            itemPool.RemoveAt(toPick);
         }
     }
 

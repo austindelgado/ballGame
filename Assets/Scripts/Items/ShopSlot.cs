@@ -10,6 +10,7 @@ public class ShopSlot : MonoBehaviour
 
     public GameObject nameText;
     public GameObject gemText;
+    public GameObject descText;
 
     public void Purchase()
     {
@@ -29,5 +30,15 @@ public class ShopSlot : MonoBehaviour
 
         nameText.GetComponent<TMP_Text>().text = item.Name;
         gemText.GetComponent<TMP_Text>().text = item.gemCost.ToString();
+    }
+
+    public void ShowDescription()
+    {
+        descText.GetComponent<TMP_Text>().text = itemData.Description;
+    }
+    
+    public void HideDescription()
+    {
+        descText.GetComponent<TMP_Text>().text = "";
     }
 }
