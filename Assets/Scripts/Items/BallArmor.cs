@@ -13,4 +13,9 @@ public class BallArmor : Item
     {
 
     }
+
+    public override void Stack()
+    {
+        Activate();
+    }
 }

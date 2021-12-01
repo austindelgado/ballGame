@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seed: 0
-  ballsToLaunch: 2
+  ballsToLaunch: 3
   ballStartingHealth: 7
   baseDamage: 1
   aimIncrease: 0

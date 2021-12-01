@@ -13,4 +13,9 @@ public class BallBundle : Item
     {
 
     }
+
+    public override void Stack()
+    {
+        Activate();
+    }
 }

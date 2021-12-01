@@ -15,4 +15,9 @@ public class TwoLeafClover : Item
     {
 
     }
+    
+    public override void Stack()
+    {
+        Activate();
+    }
 }

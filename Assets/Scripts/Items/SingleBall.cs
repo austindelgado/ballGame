@@ -13,4 +13,9 @@ public class SingleBall : Item
     {
 
     }
+    
+    public override void Stack()
+    {
+        Activate();
+    }
 }

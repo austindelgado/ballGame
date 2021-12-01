@@ -13,4 +13,9 @@ public class SteamSale : Item
     {
 
     }
+    
+    public override void Stack()
+    {
+        Activate();
+    }
 }

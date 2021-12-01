@@ -2258,10 +2258,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4891036937585081681, guid: 9194a2e4337a8473b96aa9c9bb70f8ee, type: 3}
-      propertyPath: aimIncrease
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6109536942270195891, guid: 9194a2e4337a8473b96aa9c9bb70f8ee, type: 3}
       propertyPath: m_Name
       value: DataManager

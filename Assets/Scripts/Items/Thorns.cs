@@ -13,4 +13,9 @@ public class Thorns : Item
     {
 
     }
+    
+    public override void Stack()
+    {
+        Activate();
+    }
 }
