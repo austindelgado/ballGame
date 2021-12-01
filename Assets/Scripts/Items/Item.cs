@@ -33,4 +33,9 @@ public abstract class Item
     {
         GlobalData.Instance.baseDamage += amount;
     }
+
+    public void AddLuck(float amount)
+    {
+        GlobalData.Instance.luck += amount;
+    }
 }

@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SteamSale : Item
+public class TwoLeafClover : Item
 {
+    float luck = 0.05f;
+
     public override void Activate()
     {
-        GlobalData.Instance.shopDiscount = 0.2f; // 20 percent discount
+        AddLuck(luck);
     }
 
     public override void Deactivate()

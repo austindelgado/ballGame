@@ -18,7 +18,7 @@ public class Dagger : Item
 
     public void Crit(blockObject block)
     {
-        if (Random.value < critChance)
+        if (Random.value < critChance + GlobalData.Instance.luck)
         {
             Debug.Log("Dagger crit!");
             block.AddDamage(GlobalData.Instance.baseDamage);

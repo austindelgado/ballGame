@@ -16,8 +16,8 @@ public class GlobalData : MonoBehaviour
     public float ballsToLaunch;
     public float ballStartingHealth; // Maybe a bad idea
     public int baseDamage;
-    public float aimLength;
-    public float luck; // Not active
+    public bool aimIncrease;
+    public float luck;
     public int gems;
     public int playerDepth;
     public float shopDiscount;

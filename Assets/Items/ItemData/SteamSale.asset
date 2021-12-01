@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25752f728c6975e4ea2c8f58be044b89, type: 3}
   m_Name: SteamSale
   m_EditorClassIdentifier: 
-  ID: 0
-  Name: 
-  Description: 
-  gemCost: 0
+  ID: 3
+  Name: Steam Sale
+  Description: 20% discount on shop items
+  gemCost: 10

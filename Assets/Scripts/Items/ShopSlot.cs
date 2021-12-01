@@ -19,6 +19,10 @@ public class ShopSlot : MonoBehaviour
             GlobalData.Instance.gems -= itemData.gemCost;
             Debug.Log(itemData.Name + " purchased!");
             GlobalData.Instance.playerInventory.Add(itemData.ID);
+
+            // Disable this gameObject
+            HideDescription();
+            Destroy(gameObject);
         }
         else
             Debug.Log("Not enough gems!");

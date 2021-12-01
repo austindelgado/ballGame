@@ -408,7 +408,7 @@ public class GridManager : MonoBehaviour
         }
 
         // This block is staying, give it a chance to have gems
-        if (Random.value <= .2)
+        if (Random.value <= .10 + GlobalData.Instance.luck)
             newBlock.GetComponent<blockObject>().gemmed = true;
     }
 
@@ -480,7 +480,7 @@ public class GridManager : MonoBehaviour
         {
             // Get a random block
             GameObject currentBlock = blocks[Random.Range(0, blocks.Count)];
-            if (currentBlock.tag == "Block" && !currentBlock.GetComponent<blockObject>().gemmed)
+            if (currentBlock.tag == "Block")
                 Remove(currentBlock, true);
             else
                 toRemove++;

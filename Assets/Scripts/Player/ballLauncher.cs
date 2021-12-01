@@ -70,9 +70,17 @@ public class ballLauncher : MonoBehaviour
                 // Raycasting
                 RaycastHit2D hit = Physics2D.CircleCast(transform.position, .5f, shotDirection);
 
+                Vector2 nextDirection;
+
+                lineRend.positionCount = 2;
+                lineRend.SetPosition(0, transform.position);
+                lineRend.SetPosition(1, hit.centroid); // Put aim target in here
+
                 // Debug drawings
-                if (GlobalData.Instance.debugMode)
+                if (GlobalData.Instance.aimIncrease)
                 {
+                    lineRend.positionCount += 1;
+
                     Vector2 unchangedDirection = Vector2.Reflect(shotDirection, hit.normal).normalized;
 
                     float roundAngle = 45 * Mathf.Deg2Rad;
@@ -88,7 +96,9 @@ public class ballLauncher : MonoBehaviour
                     {
                         newNormal = hit.normal.normalized;
                     }
-                    Vector2 nextDirection = Vector2.Reflect(shotDirection, newNormal).normalized;
+
+                    nextDirection = Round(Vector2.Reflect(shotDirection, hit.normal).normalized);
+                    lineRend.SetPosition(2, hit.centroid + nextDirection * 2f);
 
                     Debug.DrawRay(transform.position, shotDirection * 80f, Color.black); // Shot
                     Debug.DrawRay(transform.position, hit.centroid - (Vector2)transform.position, Color.red); // Shot?
@@ -97,11 +107,6 @@ public class ballLauncher : MonoBehaviour
                     Debug.DrawRay(hit.centroid, unchangedDirection, Color.green); // Unchanged Bounce
                     Debug.DrawRay(hit.centroid, nextDirection, Color.blue); // Changed Bounce
                 }
-
-                // Draws Line
-                lineRend.positionCount = 2;
-                lineRend.SetPosition(0, transform.position);
-                lineRend.SetPosition(1, hit.centroid); // Put aim target in here
             }
             else if (!shotFired && Input.GetMouseButtonUp(0))
             {
@@ -173,5 +178,11 @@ public class ballLauncher : MonoBehaviour
             Time.timeScale = Time.timeScale + 0.05f;
             yield return new WaitForSeconds(0.5f);
         }
+    }
+
+    Vector2 Round(Vector2 input)
+    {
+        // Multiply this by 10^n where n is the number of decimals
+        return new Vector2(Mathf.Round(input.x * 1000f) / 1000f, Mathf.Round(input.y * 1000f) / 1000f);
     }
 }

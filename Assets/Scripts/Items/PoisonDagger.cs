@@ -5,6 +5,7 @@ using UnityEngine;
 public class PoisonDagger : Item
 {
     int damage = 1;
+    float chance = .05f;
 
     public override void Activate()
     {
@@ -18,12 +19,15 @@ public class PoisonDagger : Item
 
     public void Poison(blockObject block)
     {
-        Debug.Log("Poison dagger hit for " + damage);
-        block.AddDOT(damage, 3, blockObject.dotType.Bleed);
+        if (Random.value < chance + GlobalData.Instance.luck)
+        {
+            Debug.Log("Poison dagger hit for " + damage);
+            block.AddDOT(GlobalData.Instance.baseDamage, 3, blockObject.dotType.Bleed);
+        }
     }
 
     public override void Stack()
     {
-        damage += 2;
+        chance += 0.05f;
     }
 }

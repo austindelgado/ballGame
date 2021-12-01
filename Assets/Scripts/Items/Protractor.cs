@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SteamSale : Item
+public class Protractor : Item
 {
     public override void Activate()
     {
-        GlobalData.Instance.shopDiscount = 0.2f; // 20 percent discount
+        GlobalData.Instance.aimIncrease = true;
     }
 
     public override void Deactivate()

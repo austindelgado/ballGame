@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SteamSale : Item
+public class Gun : Item
 {
     public override void Activate()
     {
-        GlobalData.Instance.shopDiscount = 0.2f; // 20 percent discount
+        AddBaseDamage(3);
     }
 
     public override void Deactivate()
