@@ -14,11 +14,13 @@ public class GlobalData : MonoBehaviour
     // Convert this to a serializer down the line
     [Header("Stats")]
     public float ballsToLaunch;
-    public float ballSize; // Maybe a bad idea
+    public float ballStartingHealth; // Maybe a bad idea
+    public int baseDamage;
     public float aimLength;
     public float luck; // Not active
     public int gems;
     public int playerDepth;
+    public float shopDiscount;
 
     // World related
     [Header("Area")]

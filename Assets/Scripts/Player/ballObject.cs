@@ -21,6 +21,7 @@ public class ballObject : MonoBehaviour
     public bool starting = true;
 
     private float shotSpeed;
+    public int damage;
     public float startingHealth;
     private float currentHealth;
     public LayerMask ballLayer;
@@ -41,6 +42,7 @@ public class ballObject : MonoBehaviour
 
         launchManager = GameObject.Find("Ball Launcher");
         shotSpeed = launchManager.GetComponent<ballLauncher>().ballSpeed;
+        startingHealth = GlobalData.Instance.ballStartingHealth;
         currentHealth = startingHealth;
 
         Bounce();

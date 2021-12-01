@@ -14,7 +14,7 @@ public class ShopSlot : MonoBehaviour
 
     public void Purchase()
     {
-        if (GlobalData.Instance.gems >= itemData.gemCost)
+        if (GlobalData.Instance.gems >= (int)(itemData.gemCost * (1 - GlobalData.Instance.shopDiscount)))
         {
             GlobalData.Instance.gems -= itemData.gemCost;
             Debug.Log(itemData.Name + " purchased!");
@@ -29,7 +29,7 @@ public class ShopSlot : MonoBehaviour
         itemData = item;
 
         nameText.GetComponent<TMP_Text>().text = item.Name;
-        gemText.GetComponent<TMP_Text>().text = item.gemCost.ToString();
+        gemText.GetComponent<TMP_Text>().text = ((int)(item.gemCost * (1 - GlobalData.Instance.shopDiscount))).ToString();
     }
 
     public void ShowDescription()

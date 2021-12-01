@@ -146,7 +146,7 @@ public class blockObject : MonoBehaviour
         // It's bad
         //Debug.Log("Block hit for " + damage + " damage");
 
-        AddDamage(1);
+        AddDamage(GlobalData.Instance.baseDamage); // Block should definitely not be applying it's own damage
 
         hitThisUpdate = true;
         GameEvents.current.BlockHit(this);

@@ -18,4 +18,19 @@ public abstract class Item
     {
         Debug.Log("No stacking implemented");
     }
+
+    public void AddBallHealth(int amount)
+    {
+        GlobalData.Instance.ballStartingHealth += amount;
+    }
+
+    public void AddBalls(int amount)
+    {
+        GlobalData.Instance.ballsToLaunch += amount;
+    }
+
+    public void AddBaseDamage(int amount)
+    {
+        GlobalData.Instance.baseDamage += amount;
+    }
 }
