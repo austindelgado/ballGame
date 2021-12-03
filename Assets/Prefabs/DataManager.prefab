@@ -55,4 +55,4 @@ MonoBehaviour:
   shopDiscount: 0
   blockHealthStartMod: 0
   areaNum: 0
-  debugMode: 1
+  debugMode: 0

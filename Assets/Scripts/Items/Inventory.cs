@@ -63,6 +63,10 @@ public class Inventory
                 newItem = new TwoLeafClover();
                 break;
 
+            case 10:
+                newItem = new Restock();
+                break;
+
             default:
                 Debug.Log("Item ID mismatch");
                 break;

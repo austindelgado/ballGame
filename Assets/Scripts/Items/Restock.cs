@@ -2,20 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gun : Item
+public class Restock : Item
 {
     public override void Activate()
     {
-        AddBaseDamage(2);
+        GlobalData.Instance.restock = true;
     }
 
     public override void Deactivate()
     {
 
-    }
-
-    public override void Stack()
-    {
-        Activate();
     }
 }

@@ -8,12 +8,7 @@ public class launcherMover : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (ballLauncher.GetComponent<ballLauncher>().shotFired && !ballLauncher.GetComponent<ballLauncher>().posUpdated)
-        {
-            ballLauncher.GetComponent<ballLauncher>().nextXPos = other.transform.position.x;
-            ballLauncher.GetComponent<ballLauncher>().posUpdated = true;
-        }
-
-        Destroy(other.gameObject);
+        if (other.gameObject.tag == "Ball")
+            Destroy(other.gameObject);
     }
 }

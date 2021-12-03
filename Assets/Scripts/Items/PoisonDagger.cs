@@ -22,7 +22,7 @@ public class PoisonDagger : Item
         if (Random.value < chance + GlobalData.Instance.luck)
         {
             Debug.Log("Poison dagger hit for " + damage);
-            block.AddDOT(GlobalData.Instance.baseDamage, 3, blockObject.dotType.Bleed);
+            block.AddDOT(2*GlobalData.Instance.baseDamage, 3, blockObject.dotType.Bleed);
         }
     }
 

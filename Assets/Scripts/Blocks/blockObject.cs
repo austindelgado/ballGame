@@ -201,7 +201,7 @@ public class blockObject : MonoBehaviour
 
         // If we have gems, add them
         if (gemmed)
-            GlobalData.Instance.AddGems(Mathf.Max((int)(depth / 10), 1));
+            GlobalData.Instance.AddGems(Mathf.Max((int)(depth / 25), 1));
 
         GridManager.manager.BlockDestroyed(gameObject);
         Destroy(gameObject);

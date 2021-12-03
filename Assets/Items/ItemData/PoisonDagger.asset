@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 1
   Name: Leech
-  Description: Chance to apply bleed, dealing base damage after enemy move for 3
-    turns
+  Description: Chance to apply bleed, dealing 2x base damage after enemy move for
+    3 turns
   gemCost: 7

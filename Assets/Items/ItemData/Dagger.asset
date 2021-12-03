@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 0
   Name: Dagger
-  Description: A pointy dagger
+  Description: A pointy dagger. 5% chance for 2x crit
   gemCost: 5

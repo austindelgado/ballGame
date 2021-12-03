@@ -126,6 +126,7 @@ public class GameManager : MonoBehaviour
 
         // Back to menu
         SceneManager.LoadScene(0);
+        Destroy(GlobalData.Instance);
 
         yield return null;
     }

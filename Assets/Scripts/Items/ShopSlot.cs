@@ -16,13 +16,17 @@ public class ShopSlot : MonoBehaviour
     {
         if (GlobalData.Instance.gems >= (int)(itemData.gemCost * (1 - GlobalData.Instance.shopDiscount)))
         {
-            GlobalData.Instance.gems -= itemData.gemCost;
+            GlobalData.Instance.gems -= (int)(itemData.gemCost * (1 - GlobalData.Instance.shopDiscount));
             Debug.Log(itemData.Name + " purchased!");
             GlobalData.Instance.playerInventory.Add(itemData.ID);
 
             // Disable this gameObject
             HideDescription();
-            Destroy(gameObject);
+
+            if (!GlobalData.Instance.restock)
+                Destroy(gameObject);
+            else
+                AssignItem(GameObject.Find("Canvas").GetComponent<ShopMenu>().itemList[Random.Range(0, GameObject.Find("Canvas").GetComponent<ShopMenu>().itemList.Count)]);
         }
         else
             Debug.Log("Not enough gems!");

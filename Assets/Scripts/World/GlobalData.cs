@@ -13,10 +13,11 @@ public class GlobalData : MonoBehaviour
     // Use this to store all player data - Think of it as the save
     // Convert this to a serializer down the line
     [Header("Stats")]
-    public float ballsToLaunch;
-    public float ballStartingHealth; // Maybe a bad idea
+    public int ballsToLaunch;
+    public int ballStartingHealth;
     public int baseDamage;
     public bool aimIncrease;
+    public bool restock;
     public float luck;
     public int gems;
     public int playerDepth;
@@ -50,24 +51,6 @@ public class GlobalData : MonoBehaviour
             seed = Random.Range(0, 99999);
 
         Random.InitState(seed);
-    }
-
-    void Start()
-    {
-        ballsToLaunch = 3;
-        gems = 0;
-    }
-
-    void Reset()
-    {
-        // Set seed
-        if (seed == 0) // Generate random
-            seed = Random.Range(0, 99999);
-
-        Random.InitState(seed);
-
-        ballsToLaunch = 3;
-        gems = 0;
     }
 
     // I don't like player specific stuff being here, but GlobalData maybe shouldn't exist at all anyways

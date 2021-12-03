@@ -15,4 +15,4 @@ MonoBehaviour:
   ID: 6
   Name: Thorns
   Description: Adds thorns to your ball. +1 base damage
-  gemCost: 7
+  gemCost: 10

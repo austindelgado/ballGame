@@ -66,9 +66,6 @@ public class GridManager : MonoBehaviour
 
         // Rows is decided based off level size
         rows = currentArea.depth;
-
-        numScoreText.GetComponent<TMP_Text>().text = score.ToString();
-
         // Use this for inital spawn
         grid = new GameObject[cols, rows + 1];
         // Rows = y
@@ -82,7 +79,7 @@ public class GridManager : MonoBehaviour
         }
 
         SpawnBlocks(startingBuffer);
-        SpawnEnemies(startingBuffer);
+        //SpawnEnemies(startingBuffer);
         RemoveBlocks();
         MoveBlocks(true);
         CheckAllGravity(true);
@@ -117,8 +114,7 @@ public class GridManager : MonoBehaviour
 
         if (!start)
         { 
-            score += 1; // Should not give points on initial start
-            numScoreText.GetComponent<TMP_Text>().text = score.ToString();
+            //numScoreText.GetComponent<TMP_Text>().text = GlobalData.Instance.playerDepth.ToString();
 
             // Advance player down a level
 
@@ -408,7 +404,7 @@ public class GridManager : MonoBehaviour
         }
 
         // This block is staying, give it a chance to have gems
-        if (Random.value <= .10 + GlobalData.Instance.luck)
+        if (Random.value <= .2 + GlobalData.Instance.luck)
             newBlock.GetComponent<blockObject>().gemmed = true;
     }
 

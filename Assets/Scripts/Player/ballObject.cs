@@ -20,7 +20,7 @@ public class ballObject : MonoBehaviour
     public bool bouncing;
     public bool starting = true;
 
-    private float shotSpeed;
+    public float shotSpeed;
     public int damage;
     public float startingHealth;
     private float currentHealth;
@@ -175,6 +175,10 @@ public class ballObject : MonoBehaviour
                 //Debug.Log("Block Hit");
                 GameEvents.current.BallHit(collision.gameObject.transform.parent.gameObject.transform.parent.gameObject);
             }
+        }
+        else if (collision.gameObject.tag == "Player")
+        {
+            Debug.Log("Bat hit!");
         }
         else
         {

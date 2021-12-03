@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class ballLauncher : MonoBehaviour
 {
@@ -9,6 +10,10 @@ public class ballLauncher : MonoBehaviour
 
     // Turn this into the player with playerData?
     // Throw all the items on here so they are all accessible?
+
+    PlayerController controls;
+
+    public Transform parent;
 
     public GameObject ballPrefab;
     public SpriteRenderer sprite;
@@ -28,6 +33,7 @@ public class ballLauncher : MonoBehaviour
     public float upgradeModifier;
     public float ballsToLaunch;
     public float ballDelay;
+    public LayerMask ballLayer;
 
     public GameObject numBallsText;
     public GameObject numUpgradeText;
@@ -52,85 +58,11 @@ public class ballLauncher : MonoBehaviour
 
         if (GameManager.manager.state == GameState.PLAYERTURN)
         {
-            if (Input.GetKeyDown("space"))
-            {
-                if (GlobalData.Instance.debugMode)
-                    GlobalData.Instance.debugMode = false;
-                else
-                    GlobalData.Instance.debugMode = true;
-            }
-
-            if (!shotFired && Input.GetMouseButton(0))
-            {
-                Vector2 screenPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-                Vector2 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
-
-                shotDirection = (worldPosition - (Vector2)transform.position).normalized;
-
-                // Raycasting
-                RaycastHit2D hit = Physics2D.CircleCast(transform.position, .5f, shotDirection);
-
-                Vector2 nextDirection;
-
-                lineRend.positionCount = 2;
-                lineRend.SetPosition(0, transform.position);
-                lineRend.SetPosition(1, hit.centroid); // Put aim target in here
-
-                // Debug drawings
-                if (GlobalData.Instance.aimIncrease)
-                {
-                    lineRend.positionCount += 1;
-
-                    Vector2 unchangedDirection = Vector2.Reflect(shotDirection, hit.normal).normalized;
-
-                    float roundAngle = 45 * Mathf.Deg2Rad;
-                    float angle = (float)Mathf.Atan2(hit.normal.y, hit.normal.x);
-                    Vector2 newNormal;
-
-                    if (angle % roundAngle != 0)
-                    {
-                        float newAngle = (float)Mathf.Round(angle / roundAngle) * roundAngle;
-                        newNormal = new Vector2((float)Mathf.Cos(newAngle), (float)Mathf.Sin(newAngle));
-                    }
-                    else
-                    {
-                        newNormal = hit.normal.normalized;
-                    }
-
-                    nextDirection = Round(Vector2.Reflect(shotDirection, hit.normal).normalized);
-                    lineRend.SetPosition(2, hit.centroid + nextDirection * 2f);
-
-                    Debug.DrawRay(transform.position, shotDirection * 80f, Color.black); // Shot
-                    Debug.DrawRay(transform.position, hit.centroid - (Vector2)transform.position, Color.red); // Shot?
-                    Debug.DrawRay(hit.centroid, hit.normal, Color.white); // Hit normal
-                    Debug.DrawRay(hit.centroid, newNormal, Color.magenta); // Rounded Hit normal
-                    Debug.DrawRay(hit.centroid, unchangedDirection, Color.green); // Unchanged Bounce
-                    Debug.DrawRay(hit.centroid, nextDirection, Color.blue); // Changed Bounce
-                }
-            }
-            else if (!shotFired && Input.GetMouseButtonUp(0))
-            {
-                lineRend.positionCount = 0;
-                shotFired = true;
-
-                // Hide the sprite
-                sprite.enabled = false;
-
-                // This is where the shot is launched
-                StartCoroutine(LaunchDelay(ballsToLaunch));
-
-                // Speed up time gradually if not in debug mode
-                //if (!GlobalData.Instance.debugMode)
-                StartCoroutine(SpeedUp());
-            }
-
-
             // Get next shot ready
-            if (shotFired && transform.childCount == 0)
+            if (shotFired && parent.childCount == 0)
             {
                 shotFired = false;
                 posUpdated = false;
-                transform.position = new Vector2(nextXPos, transform.position.y);
                 Time.timeScale = 1.0f;
                 sprite.enabled = true;
 
@@ -139,15 +71,15 @@ public class ballLauncher : MonoBehaviour
             }
 
             // Update things
-            numBallsText.GetComponent<TMP_Text>().text = ballsToLaunch.ToString();
+            numBallsText.GetComponent<TMP_Text>().text = GlobalData.Instance.ballsToLaunch.ToString();
             numUpgradeText.GetComponent<TMP_Text>().text = (hitsToUpgrade - currentHits).ToString();
             if (currentHits >= hitsToUpgrade)
             {
-                ballsToLaunch++;
+                GlobalData.Instance.ballsToLaunch++;
                 currentHits = 0;
 
                 // Need formula to get next hitsToUpgrade
-                hitsToUpgrade = ballsToLaunch * upgradeModifier;
+                hitsToUpgrade = GlobalData.Instance.ballsToLaunch * upgradeModifier;
 
                 if (shotFired)
                     StartCoroutine(LaunchDelay(1)); 
@@ -159,7 +91,7 @@ public class ballLauncher : MonoBehaviour
     {
         for (int i = 0; i < numToLaunch; i++)
         {
-            GameObject ball = Instantiate(ballPrefab, transform);
+            GameObject ball = Instantiate(ballPrefab, transform.position, transform.rotation, parent);
 
             defaultLaunchEffect.Launch(ball, shotDirection);
             ball.name = "Ball " + (i + 1);
@@ -184,5 +116,76 @@ public class ballLauncher : MonoBehaviour
     {
         // Multiply this by 10^n where n is the number of decimals
         return new Vector2(Mathf.Round(input.x * 1000f) / 1000f, Mathf.Round(input.y * 1000f) / 1000f);
+    }
+
+    void OnLook(InputValue value)
+    {
+        shotDirection = value.Get<Vector2>();
+    }
+
+    void OnAim()
+    {
+        if (!shotFired && GameManager.manager.state == GameState.PLAYERTURN)
+        {
+            // Raycasting
+            RaycastHit2D hit = Physics2D.CircleCast(transform.position, .5f, shotDirection);
+
+            Vector2 nextDirection;
+
+            lineRend.positionCount = 2;
+            lineRend.SetPosition(0, transform.position);
+            lineRend.SetPosition(1, hit.centroid); // Put aim target in here
+
+            // Debug drawings
+            if (GlobalData.Instance.aimIncrease)
+            {
+                lineRend.positionCount += 1;
+
+                Vector2 unchangedDirection = Vector2.Reflect(shotDirection, hit.normal).normalized;
+
+                float roundAngle = 45 * Mathf.Deg2Rad;
+                float angle = (float)Mathf.Atan2(hit.normal.y, hit.normal.x);
+                Vector2 newNormal;
+
+                if (angle % roundAngle != 0)
+                {
+                    float newAngle = (float)Mathf.Round(angle / roundAngle) * roundAngle;
+                    newNormal = new Vector2((float)Mathf.Cos(newAngle), (float)Mathf.Sin(newAngle));
+                }
+                else
+                {
+                    newNormal = hit.normal.normalized;
+                }
+
+                nextDirection = Round(Vector2.Reflect(shotDirection, hit.normal).normalized);
+                lineRend.SetPosition(2, hit.centroid + nextDirection * 2f);
+
+                Debug.DrawRay(transform.position, shotDirection * 80f, Color.black); // Shot
+                Debug.DrawRay(transform.position, hit.centroid - (Vector2)transform.position, Color.red); // Shot?
+                Debug.DrawRay(hit.centroid, hit.normal, Color.white); // Hit normal
+                Debug.DrawRay(hit.centroid, newNormal, Color.magenta); // Rounded Hit normal
+                Debug.DrawRay(hit.centroid, unchangedDirection, Color.green); // Unchanged Bounce
+                Debug.DrawRay(hit.centroid, nextDirection, Color.blue); // Changed Bounce
+            }
+        }
+    }
+
+    void OnShoot()
+    {
+        if (!shotFired && Input.GetMouseButtonUp(1))
+        {
+            lineRend.positionCount = 0;
+            shotFired = true;
+
+            // Hide the sprite
+            sprite.enabled = false;
+
+            // This is where the shot is launched
+            StartCoroutine(LaunchDelay(GlobalData.Instance.ballsToLaunch));
+
+            // Speed up time gradually if not in debug mode
+            //if (!GlobalData.Instance.debugMode)
+            //StartCoroutine(SpeedUp());
+        }
     }
 }
