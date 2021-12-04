@@ -118,7 +118,7 @@ public class ballObject : MonoBehaviour
         Debug.DrawRay(hit.centroid, newNormal, Color.red, 3f);
 
         // Bounce projection
-        nextDirection = Round(Vector2.Reflect(currDirection, hit.normal).normalized);
+        nextDirection = Round(Vector2.Reflect(currDirection, newNormal).normalized);
         //Debug.Log(nextDirection.ToString("F4"));
 
         nextPosition = hit.centroid;

@@ -18,14 +18,6 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 lookDir;
     public bool lookLeft;
 
-    void Awake()
-    {
-        controls = new PlayerController();
-
-        controls.Gameplay.Move.performed += ctx => move = ctx.ReadValue<Vector2>();
-        controls.Gameplay.Move.canceled += ctx => move = Vector2.zero;
-    }
-
     private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -35,12 +27,6 @@ public class PlayerMovement : MonoBehaviour
     // For input
     void Update()
     {
-        // aim input
-        //Vector2 screenPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-        //Vector2 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
-
-        //lookDir = (worldPosition - (Vector2)transform.position);
-
         rb.MovePosition(rb.position + move.normalized * moveSpeed * Time.fixedDeltaTime);
 
         if (move != Vector2.zero)
@@ -52,16 +38,16 @@ public class PlayerMovement : MonoBehaviour
     // Actual movement
     void FixedUpdate()
     {
-        //if (lookDir.x < 0)
-        //{
-        //    spriteRenderer.flipX = false;
-       //     lookLeft = true;
-      //  }
-      //  else
-      //  {
-       //     spriteRenderer.flipX = true;
-      //      lookLeft = false;
-      //  }
+        if (lookDir.x < 0)
+        {
+            spriteRenderer.flipX = false;
+            lookLeft = true;
+        }
+        else
+        {
+            spriteRenderer.flipX = true;
+            lookLeft = false;
+        }
     }
 
     void OnMove(InputValue value)
@@ -69,4 +55,17 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log("OnMove");
         move = value.Get<Vector2>();
     }
+
+    void OnLook(InputValue value)
+    {
+        Debug.Log("OnLook");
+        lookDir = value.Get<Vector2>();
+    }
+
+    void OnMouseLook(InputValue value)
+    {
+        Debug.Log("OnMouseLook");
+        lookDir = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()) - transform.position;
+    }
+
 }

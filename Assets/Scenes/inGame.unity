@@ -1638,6 +1638,17 @@ MonoBehaviour:
   m_DefaultActionMap: Gameplay
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &1070647051 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8647559402206175462, guid: 5d7c7a14ca70ea744b951240e1e68da9, type: 3}
+  m_PrefabInstance: {fileID: 8647559402355818018}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1070647042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbea01f0b33c93c4fa710f0ae6e5807d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1107621314
 GameObject:
   m_ObjectHideFlags: 0
@@ -2641,6 +2652,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 676854822}
     - target: {fileID: 1906959189, guid: 5d7c7a14ca70ea744b951240e1e68da9, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1070647051}
+    - target: {fileID: 1906959189, guid: 5d7c7a14ca70ea744b951240e1e68da9, type: 3}
       propertyPath: ballSpeed
       value: 25
       objectReference: {fileID: 0}
@@ -2654,7 +2669,7 @@ PrefabInstance:
       objectReference: {fileID: 375676483}
     - target: {fileID: 1282755967175988499, guid: 5d7c7a14ca70ea744b951240e1e68da9, type: 3}
       propertyPath: m_Radius
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1282755967175988499, guid: 5d7c7a14ca70ea744b951240e1e68da9, type: 3}
       propertyPath: m_Enabled
@@ -2662,15 +2677,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1282755967175988499, guid: 5d7c7a14ca70ea744b951240e1e68da9, type: 3}
       propertyPath: m_Offset.y
-      value: 1.12
+      value: -0.48
       objectReference: {fileID: 0}
     - target: {fileID: 4239994850878872206, guid: 5d7c7a14ca70ea744b951240e1e68da9, type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.275
       objectReference: {fileID: 0}
     - target: {fileID: 8224652769677021568, guid: 5d7c7a14ca70ea744b951240e1e68da9, type: 3}
+      propertyPath: angle
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8224652769677021568, guid: 5d7c7a14ca70ea744b951240e1e68da9, type: 3}
+      propertyPath: swing
+      value: 
+      objectReference: {fileID: 872810480943976875, guid: 0a92040673102c349b8797a443e09a77, type: 3}
+    - target: {fileID: 8224652769677021568, guid: 5d7c7a14ca70ea744b951240e1e68da9, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1070647051}
+    - target: {fileID: 8224652769677021568, guid: 5d7c7a14ca70ea744b951240e1e68da9, type: 3}
       propertyPath: attackRate
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8224652769677021568, guid: 5d7c7a14ca70ea744b951240e1e68da9, type: 3}
+      propertyPath: attackRange
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8224652769677021568, guid: 5d7c7a14ca70ea744b951240e1e68da9, type: 3}
+      propertyPath: attackOffset
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8224652769677021568, guid: 5d7c7a14ca70ea744b951240e1e68da9, type: 3}
+      propertyPath: layer.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 8224652769677021568, guid: 5d7c7a14ca70ea744b951240e1e68da9, type: 3}
+      propertyPath: startTimeBtwAttack
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 8647559402206175389, guid: 5d7c7a14ca70ea744b951240e1e68da9, type: 3}
       propertyPath: m_Name
@@ -2728,6 +2771,22 @@ PrefabInstance:
       propertyPath: moveSpeed
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 8647559402206175462, guid: 5d7c7a14ca70ea744b951240e1e68da9, type: 3}
+      propertyPath: attackRange
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8647559402206175462, guid: 5d7c7a14ca70ea744b951240e1e68da9, type: 3}
+      propertyPath: attackOffset
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8647559402206175462, guid: 5d7c7a14ca70ea744b951240e1e68da9, type: 3}
+      propertyPath: layer.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8647559402206175462, guid: 5d7c7a14ca70ea744b951240e1e68da9, type: 3}
+      propertyPath: attackOffset.x
+      value: 4.53
+      objectReference: {fileID: 0}
     - target: {fileID: 9146990587015308085, guid: 5d7c7a14ca70ea744b951240e1e68da9, type: 3}
       propertyPath: m_Layer
       value: 9
@@ -2736,5 +2795,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1282755967175988499, guid: 5d7c7a14ca70ea744b951240e1e68da9, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 5d7c7a14ca70ea744b951240e1e68da9, type: 3}

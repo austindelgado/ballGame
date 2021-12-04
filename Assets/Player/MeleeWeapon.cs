@@ -5,49 +5,71 @@ using UnityEngine.InputSystem;
 
 public class MeleeWeapon : MonoBehaviour
 {
-    public GameObject player;
+    public PlayerMovement player;
     public Animator animator;
 
-    public float attackRate = 2f;
-    float nextAttackTime = 0f;
-    public float damage = 20f;
-    public bool inAnimation = false;
-    public Vector2 lookDir;
+    public ParticleSystem swing;
+
+    private float timeBtwAttack;
+    public float startTimeBtwAttack;
+    private bool canAttack;
+    private Vector2 attackPos;
+    public float attackOffset;
+    public LayerMask layer;
+    public float attackRange;
+
+    public int angle;
+    public Quaternion angleOffset;
+
+    void Start()
+    {
+        //angleOffset = Quaternion.AngleAxis(angle, Vector3.forward);
+    }
 
     void Update()
     {
-        if (Time.time >= nextAttackTime)
-        {
+        transform.rotation = Quaternion.LookRotation(Vector3.forward, -player.lookDir);
 
-        }
-    }
+        attackPos = (Vector2)player.transform.position + attackOffset * player.lookDir.normalized;
 
-    void FixedUpdate()
-    {
-        if (!inAnimation)
-            transform.rotation = Quaternion.LookRotation(Vector3.forward, lookDir);
-    }
-
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Ball")
-        {
-            // Send ball other way
-            collision.gameObject.GetComponent<ballObject>().currDirection = lookDir;
-            collision.gameObject.GetComponent<ballObject>().Bounce();
-            collision.gameObject.GetComponent<ballObject>().shotSpeed += 5f;
-        }
+        if (timeBtwAttack <= 0)
+            canAttack = true;
+        else
+            timeBtwAttack -= Time.deltaTime;
     }
 
     void OnAttack()
     {
-        animator.SetTrigger("attack");
-        nextAttackTime = Time.time + 1f / attackRate;
+        if (canAttack)
+        {
+            // Start cooldown
+            canAttack = false;
+            timeBtwAttack = startTimeBtwAttack;
+
+            //angle = angle * -1;
+            //angleOffset = Quaternion.AngleAxis(angle, Vector3.forward);
+
+            Instantiate(swing, attackPos, transform.rotation);
+
+            Debug.Log("Attacking");
+            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(attackPos, attackRange, layer);
+            foreach (var hitCollider in hitColliders)
+            {
+                // Send ball other way
+                if (hitCollider.gameObject.tag == "Ball")
+                {
+                    Debug.Log("Ball hit");
+                    hitCollider.gameObject.GetComponent<ballObject>().currDirection = player.lookDir;
+                    hitCollider.gameObject.GetComponent<ballObject>().Bounce();
+                    hitCollider.gameObject.GetComponent<ballObject>().shotSpeed += 5f;
+                }
+            }
+        }
     }
 
-    void OnLook(InputValue value)
+    void OnDrawGizmosSelected()
     {
-        Debug.Log("OnLook");
-        lookDir = value.Get<Vector2>();
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(attackPos, attackRange);
     }
 }

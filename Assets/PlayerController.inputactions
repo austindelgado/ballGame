@@ -7,9 +7,9 @@
             "actions": [
                 {
                     "name": "Aim",
-                    "type": "Value",
-                    "id": "2c253367-f6d1-4059-b0c1-4ebdfb6d8827",
-                    "expectedControlType": "Stick",
+                    "type": "Button",
+                    "id": "dfb22e06-6797-4732-9a23-dbe076f0223d",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -17,7 +17,7 @@
                 {
                     "name": "Look",
                     "type": "Value",
-                    "id": "dfb22e06-6797-4732-9a23-dbe076f0223d",
+                    "id": "2c253367-f6d1-4059-b0c1-4ebdfb6d8827",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
@@ -40,20 +40,18 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "MouseLook",
+                    "type": "Value",
+                    "id": "9dd3818c-69d6-4624-8121-810bb019fb20",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "b820e0da-6305-4db8-9cb0-06dd29e2165b",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard & Mouse",
-                    "action": "Aim",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "2D Vector",
                     "id": "2939d271-062b-4aed-85f7-1dd6bc47aa42",
@@ -61,7 +59,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Aim",
+                    "action": "Look",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -72,7 +70,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
-                    "action": "Aim",
+                    "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -83,7 +81,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
-                    "action": "Aim",
+                    "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -94,7 +92,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
-                    "action": "Aim",
+                    "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -105,7 +103,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
-                    "action": "Aim",
+                    "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -201,21 +199,32 @@
                     "name": "",
                     "id": "e91fb51c-3b8c-4509-a687-a5821ad8b051",
                     "path": "<Gamepad>/leftTrigger",
-                    "interactions": "",
+                    "interactions": "Press(behavior=2)",
                     "processors": "",
                     "groups": "Controller",
-                    "action": "Look",
+                    "action": "Aim",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "fcec3ad3-bbb9-45fd-a3b2-3626cb8c62fa",
+                    "id": "b820e0da-6305-4db8-9cb0-06dd29e2165b",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "Press(behavior=2)",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fcd9dd96-b206-4d8f-9b83-fb3553015fc3",
                     "path": "<Mouse>/position",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard & Mouse",
-                    "action": "Look",
+                    "action": "MouseLook",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
