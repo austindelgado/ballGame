@@ -49,6 +49,7 @@ public class ballObject : MonoBehaviour
 
         // Change size for circleCast but change scale on ball
         size = GlobalData.Instance.ballSize;
+        damage = GlobalData.Instance.baseDamage;
         gameObject.transform.localScale = new Vector3(size * 2, size * 2, 1);
 
         Bounce();
