@@ -9,6 +9,7 @@ TagManager:
   - Launcher
   - Walls
   - Enemy
+  - Interactable
   layers:
   - Default
   - TransparentFX

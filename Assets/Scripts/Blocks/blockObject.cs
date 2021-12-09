@@ -98,6 +98,9 @@ public class blockObject : MonoBehaviour
         // This definitely doesn't need to happen every frame
         if (textObject != null)
             textObject.GetComponent<TMP_Text>().text = currentHealth.ToString();
+
+        if (currentHealth <= 0)
+            BlockBreak();
     }
 
     void FixedUpdate()

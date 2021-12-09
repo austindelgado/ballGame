@@ -38,4 +38,23 @@ public abstract class Item
     {
         GlobalData.Instance.luck += amount;
     }
+
+    public void AddBallSize(float amount)
+    {
+        GlobalData.Instance.ballSize += amount;
+        if (GlobalData.Instance.ballSize < 0.25f)
+            GlobalData.Instance.ballSize = 0.25f;
+        else if (GlobalData.Instance.ballSize > 2f)
+            GlobalData.Instance.ballSize = 2f;
+    }
+
+    public void AddMovementSpeed(int amount)
+    {
+        GlobalData.Instance.playerSpeed += amount;
+    }
+
+    public void AddAttackCD(float amount)
+    {
+        GlobalData.Instance.attackCD += amount;
+    }
 }

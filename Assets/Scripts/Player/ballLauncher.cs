@@ -24,6 +24,7 @@ public class ballLauncher : MonoBehaviour
     private Vector2 mousePos;
     private Vector2 shotDirection;
 
+    public bool canShoot = true;
     public bool shotFired;
     public bool aim;
     public bool posUpdated;
@@ -67,37 +68,44 @@ public class ballLauncher : MonoBehaviour
         // Potential issue, probably need some delay between clicking down and shooting
         // Don't want to send the ball with just a click
 
-        if (aim)
-            Aim();
-
-        if (GameManager.manager.state == GameState.PLAYERTURN)
+        if (canShoot)
         {
-            // Get next shot ready
-            if (shotFired && parent.childCount == 0)
+            if (aim)
+                Aim();
+
+            if (GameManager.manager.state == GameState.PLAYERTURN)
             {
-                shotFired = false;
-                posUpdated = false;
-                Time.timeScale = 1.0f;
-                sprite.enabled = true;
+                // Get next shot ready
+                if (shotFired && parent.childCount == 0)
+                {
+                    shotFired = false;
+                    posUpdated = false;
+                    Time.timeScale = 1.0f;
+                    sprite.enabled = true;
 
-                // Player turn over, call enemyTurn
-                GameManager.manager.PlayerTurnOver();
+                    // Player turn over, call enemyTurn
+                    GameManager.manager.PlayerTurnOver();
+                }
+
+                // Update things
+                numBallsText.GetComponent<TMP_Text>().text = GlobalData.Instance.ballsToLaunch.ToString();
+                numUpgradeText.GetComponent<TMP_Text>().text = (hitsToUpgrade - currentHits).ToString();
+                if (currentHits >= hitsToUpgrade)
+                {
+                    GlobalData.Instance.ballsToLaunch++;
+                    currentHits = 0;
+
+                    // Need formula to get next hitsToUpgrade
+                    hitsToUpgrade = GlobalData.Instance.ballsToLaunch * upgradeModifier;
+
+                    if (shotFired)
+                        StartCoroutine(LaunchDelay(1)); 
+                }
             }
-
-            // Update things
-            numBallsText.GetComponent<TMP_Text>().text = GlobalData.Instance.ballsToLaunch.ToString();
-            numUpgradeText.GetComponent<TMP_Text>().text = (hitsToUpgrade - currentHits).ToString();
-            if (currentHits >= hitsToUpgrade)
-            {
-                GlobalData.Instance.ballsToLaunch++;
-                currentHits = 0;
-
-                // Need formula to get next hitsToUpgrade
-                hitsToUpgrade = GlobalData.Instance.ballsToLaunch * upgradeModifier;
-
-                if (shotFired)
-                    StartCoroutine(LaunchDelay(1)); 
-            }
+        }
+        else
+        {
+            lineRend.positionCount = 0;
         }
     }
 
@@ -136,7 +144,7 @@ public class ballLauncher : MonoBehaviour
     {
         Debug.Log("OnAim");
         aim = !aim;
-        if (!aim)
+        if (!aim && canShoot)
         {
             Shoot();
         }
@@ -146,13 +154,15 @@ public class ballLauncher : MonoBehaviour
     {
         Debug.Log("Aiming");
 
-        if (!shotFired && GameManager.manager.state == GameState.PLAYERTURN)
+        if (!shotFired && canShoot && GameManager.manager.state == GameState.PLAYERTURN)
         {
             // Raycasting
-            RaycastHit2D hit = Physics2D.CircleCast(transform.position, .5f, player.lookDir);
+            RaycastHit2D hit = Physics2D.CircleCast(transform.position, GlobalData.Instance.ballSize, player.lookDir);
 
             Vector2 nextDirection;
 
+            lineRend.startWidth = GlobalData.Instance.ballSize;
+            lineRend.endWidth = GlobalData.Instance.ballSize;
             lineRend.positionCount = 2;
             lineRend.SetPosition(0, transform.position);
             lineRend.SetPosition(1, hit.centroid); // Put aim target in here

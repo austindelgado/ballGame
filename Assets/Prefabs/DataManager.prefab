@@ -45,10 +45,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seed: 0
-  ballsToLaunch: 3
+  playerSpeed: 15
+  attackCD: 1
+  ballSize: 0.5
+  ballsToLaunch: 2
   ballStartingHealth: 7
   baseDamage: 1
   aimIncrease: 0
+  restock: 0
   luck: 0
   gems: 0
   playerDepth: 0

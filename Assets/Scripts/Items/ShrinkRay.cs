@@ -2,20 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TwoLeafClover : Item
+public class ShrinkRay : Item
 {
-    float luck = 0.025f;
+    float amount = -0.1f;
 
     public override void Activate()
     {
-        AddLuck(luck);
+        AddBallSize(amount);
     }
 
     public override void Deactivate()
     {
 
     }
-    
+
     public override void Stack()
     {
         Activate();

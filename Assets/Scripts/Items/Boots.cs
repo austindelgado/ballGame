@@ -2,20 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TwoLeafClover : Item
+public class Boots : Item
 {
-    float luck = 0.025f;
+    int amount = 2;
 
     public override void Activate()
     {
-        AddLuck(luck);
+        AddMovementSpeed(amount);
     }
 
     public override void Deactivate()
     {
 
     }
-    
+
     public override void Stack()
     {
         Activate();

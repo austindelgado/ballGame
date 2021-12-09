@@ -110,7 +110,7 @@ public class GameManager : MonoBehaviour
         //inGameUI.SetActive(false);
 
         // Move to next scene
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
         yield return null;
     }

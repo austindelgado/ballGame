@@ -12,7 +12,8 @@ public class MeleeWeapon : MonoBehaviour
 
     private float timeBtwAttack;
     public float startTimeBtwAttack;
-    private bool canAttack;
+    public bool canAttack;
+    public bool offCooldown;
     private Vector2 attackPos;
     public float attackOffset;
     public LayerMask layer;
@@ -33,18 +34,18 @@ public class MeleeWeapon : MonoBehaviour
         attackPos = (Vector2)player.transform.position + attackOffset * player.lookDir.normalized;
 
         if (timeBtwAttack <= 0)
-            canAttack = true;
+            offCooldown = true;
         else
             timeBtwAttack -= Time.deltaTime;
     }
 
     void OnAttack()
     {
-        if (canAttack)
+        if (canAttack && offCooldown)
         {
             // Start cooldown
-            canAttack = false;
-            timeBtwAttack = startTimeBtwAttack;
+            offCooldown = false;
+            timeBtwAttack = GlobalData.Instance.attackCD;
 
             //angle = angle * -1;
             //angleOffset = Quaternion.AngleAxis(angle, Vector3.forward);

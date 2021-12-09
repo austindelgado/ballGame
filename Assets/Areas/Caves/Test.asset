@@ -19,7 +19,7 @@ MonoBehaviour:
   gemLocked: {fileID: 2100000, guid: cffa84a318ed2b943bc5562197b50fcf, type: 2}
   bg: {fileID: 0}
   depth: 50
-  depthMod: 0.33
+  depthMod: 0.5
   maxBlockSize: 4
   minBlockSize: 3
   deletePercentage: 0.5

@@ -8,6 +8,7 @@ public class ballObject : MonoBehaviour
     public SpriteRenderer spriteRenderer;
     public LineRenderer lineRend;
     public Rigidbody2D rb;
+    public CircleCollider2D circCollider;
 
     public Vector2 currDirection;
     public Vector2 nextDirection;
@@ -21,6 +22,7 @@ public class ballObject : MonoBehaviour
     public bool starting = true;
 
     public float shotSpeed;
+    public float size;
     public int damage;
     public float startingHealth;
     private float currentHealth;
@@ -44,6 +46,10 @@ public class ballObject : MonoBehaviour
         shotSpeed = launchManager.GetComponent<ballLauncher>().ballSpeed;
         startingHealth = GlobalData.Instance.ballStartingHealth;
         currentHealth = startingHealth;
+
+        // Change size for circleCast but change scale on ball
+        size = GlobalData.Instance.ballSize;
+        gameObject.transform.localScale = new Vector3(size * 2, size * 2, 1);
 
         Bounce();
     }
@@ -96,7 +102,7 @@ public class ballObject : MonoBehaviour
         bouncing = true;
 
         // Current projection
-        RaycastHit2D hit = Physics2D.CircleCast(transform.position, .5f, currDirection, 80f, ~ballLayer);
+        RaycastHit2D hit = Physics2D.CircleCast(transform.position, size, currDirection, 80f, ~ballLayer);
 
         // Holedown rounds this to nearest 45 degree angle, let's try that
         // Take normal and round to nearest 45 degree
@@ -118,12 +124,12 @@ public class ballObject : MonoBehaviour
         Debug.DrawRay(hit.centroid, newNormal, Color.red, 3f);
 
         // Bounce projection
-        nextDirection = Round(Vector2.Reflect(currDirection, newNormal).normalized);
+        nextDirection = Round(Vector2.Reflect(currDirection, hit.normal).normalized);
         //Debug.Log(nextDirection.ToString("F4"));
 
         nextPosition = hit.centroid;
         nextHit = hit.collider.gameObject;
-        RaycastHit2D bounce = Physics2D.CircleCast(hit.centroid, .5f, nextDirection, 80f, ~ballLayer);
+        RaycastHit2D bounce = Physics2D.CircleCast(hit.centroid, size, nextDirection, 80f, ~ballLayer);
 
         // Draw lines here
         if (GlobalData.Instance.debugMode)

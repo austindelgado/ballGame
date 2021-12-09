@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class Inventory
 {
-    Item[] itemList = new Item[10]; // Pull this number from somewhere
+    Item[] itemList = new Item[15]; // Pull this number from somewhere
 
     // This needs a permanent home
     public void Add(int itemID)
@@ -65,6 +65,22 @@ public class Inventory
 
             case 10:
                 newItem = new Restock();
+                break;
+
+            case 11:
+                newItem = new BattingGloves();
+                break;
+
+            case 12:
+                newItem = new Boots();
+                break;
+
+            case 13:
+                newItem = new ShrinkRay();
+                break;
+
+            case 14:
+                newItem = new GrowthPill();
                 break;
 
             default:

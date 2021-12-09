@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 
 // Change to be similar to other Manager start
 
@@ -35,6 +36,7 @@ public class GridManager : MonoBehaviour
     private int numBlocks;
     private List<GameObject> blocks = new List<GameObject>();
     private List<GameObject> enemies = new List<GameObject>(); // Enemies are also included in blocks
+    public List<Room> rooms = new List<Room>();
 
     [Header("Generation Variables")]
     public int maxBlockSize;
@@ -121,7 +123,11 @@ public class GridManager : MonoBehaviour
             // Actually move the level
             // Check if first block is above the minimum y
             // Player Depth + maxDepthDiff gives min block height
-            int depthDiff = (int)blocks[0].GetComponent<blockObject>().lowestY - playerDepth - maxDepthDiff;
+            int depthDiff;
+            if (rooms.Count != 0)
+                depthDiff = Math.Min((int)blocks[0].GetComponent<blockObject>().lowestY - playerDepth - maxDepthDiff, rooms[0].roomDepth - playerDepth);
+            else
+                depthDiff = (int)blocks[0].GetComponent<blockObject>().lowestY - playerDepth - maxDepthDiff;
             if (depthDiff > 0)
             {
                 playerDepth += depthDiff;
@@ -134,7 +140,7 @@ public class GridManager : MonoBehaviour
             }
         }
 
-        if ((int)blocks[0].GetComponent<blockObject>().lowestY == playerDepth) // Block here!
+        if ((int)blocks[0].GetComponent<blockObject>().lowestY == playerDepth + 1) // Block here!
         {
             StartCoroutine(GameManager.manager.LevelLost());
             yield break;
@@ -241,19 +247,19 @@ public class GridManager : MonoBehaviour
             if (possibleMoves.Count != 0)
             {
                 // Select random move direction from the list
-                int selectedDirection = possibleMoves[Random.Range(0, possibleMoves.Count)];
+                int selectedDirection = possibleMoves[UnityEngine.Random.Range(0, possibleMoves.Count)];
 
                 // Change this to weigh directions
                 Vector2 nextMove;
 
                 if (selectedDirection == 0)
-                    nextMove = possibleUp[Random.Range(0, possibleUp.Count)];
+                    nextMove = possibleUp[UnityEngine.Random.Range(0, possibleUp.Count)];
                 else if (selectedDirection == 1)
-                    nextMove = possibleRight[Random.Range(0, possibleRight.Count)];
+                    nextMove = possibleRight[UnityEngine.Random.Range(0, possibleRight.Count)];
                 else if (selectedDirection == 2)
-                    nextMove = possibleDown[Random.Range(0, possibleDown.Count)];
+                    nextMove = possibleDown[UnityEngine.Random.Range(0, possibleDown.Count)];
                 else if (selectedDirection == 3) // SelectedDirection == 3
-                    nextMove = possibleLeft[Random.Range(0, possibleLeft.Count)];
+                    nextMove = possibleLeft[UnityEngine.Random.Range(0, possibleLeft.Count)];
                 else
                     return;
 
@@ -404,7 +410,7 @@ public class GridManager : MonoBehaviour
         }
 
         // This block is staying, give it a chance to have gems
-        if (Random.value <= .2 + GlobalData.Instance.luck)
+        if (UnityEngine.Random.value <= .2 + GlobalData.Instance.luck)
             newBlock.GetComponent<blockObject>().gemmed = true;
     }
 
@@ -417,14 +423,14 @@ public class GridManager : MonoBehaviour
         // Only spawn enemies below a certain threshold, shouldn't see them from starting screen
 
         // Things break when you do 1,1, no clue why
-        int toSpawn = Random.Range(currentArea.minEnemies, currentArea.maxEnemies);
+        int toSpawn = UnityEngine.Random.Range(currentArea.minEnemies, currentArea.maxEnemies);
 
         //SpawnEnemy(0, buffer +toSpawn);
 
         for (int y = buffer + 10; y < rows; y += toSpawn)
         {
-            SpawnEnemy(Random.Range(0, 4), y);
-            toSpawn = Random.Range(currentArea.minEnemies, currentArea.maxEnemies);
+            SpawnEnemy(UnityEngine.Random.Range(0, 4), y);
+            toSpawn = UnityEngine.Random.Range(currentArea.minEnemies, currentArea.maxEnemies);
         }
 
     }
@@ -475,7 +481,7 @@ public class GridManager : MonoBehaviour
         for (int i = 0; i < toRemove; i++)
         {
             // Get a random block
-            GameObject currentBlock = blocks[Random.Range(0, blocks.Count)];
+            GameObject currentBlock = blocks[UnityEngine.Random.Range(0, blocks.Count)];
             if (currentBlock.tag == "Block")
                 Remove(currentBlock, true);
             else

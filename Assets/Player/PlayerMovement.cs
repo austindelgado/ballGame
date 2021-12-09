@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
     PlayerController controls;
 
-    public float moveSpeed;
+    public int moveSpeed;
     public Rigidbody2D rb;
     public Animator animator;
 
@@ -18,6 +19,12 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 lookDir;
     public bool lookLeft;
 
+    // This is not pretty, change this
+    public ShopSlot currentShopSlot = null;
+
+    public ballLauncher bLauncher;
+    public MeleeWeapon mWeapon;
+
     private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -27,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
     // For input
     void Update()
     {
-        rb.MovePosition(rb.position + move.normalized * moveSpeed * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + move.normalized * GlobalData.Instance.playerSpeed * Time.fixedDeltaTime);
 
         if (move != Vector2.zero)
             animator.SetInteger("Speed", 1);
@@ -62,10 +69,30 @@ public class PlayerMovement : MonoBehaviour
         lookDir = value.Get<Vector2>();
     }
 
+    void OnInteract()
+    {
+        if (currentShopSlot)
+            currentShopSlot.Purchase();
+    }
+
+    void OnEscape()
+    {
+        SceneManager.LoadScene(0);
+    }
+
     void OnMouseLook(InputValue value)
     {
         Debug.Log("OnMouseLook");
         lookDir = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()) - transform.position;
     }
 
+    public void ToggleShoot()
+    {
+        bLauncher.canShoot = !bLauncher.canShoot;
+    }
+
+    public void ToggleMelee()
+    {
+        mWeapon.canAttack = !mWeapon.canAttack;
+    }
 }

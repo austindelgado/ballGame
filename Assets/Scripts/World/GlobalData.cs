@@ -13,6 +13,9 @@ public class GlobalData : MonoBehaviour
     // Use this to store all player data - Think of it as the save
     // Convert this to a serializer down the line
     [Header("Stats")]
+    public int playerSpeed;
+    public float attackCD;
+    public float ballSize; // min 0.25, max 2
     public int ballsToLaunch;
     public int ballStartingHealth;
     public int baseDamage;
