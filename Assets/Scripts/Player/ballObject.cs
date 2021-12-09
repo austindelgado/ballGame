@@ -167,6 +167,7 @@ public class ballObject : MonoBehaviour
 
                 // Global hit call goes here, pass in collision object
                 //Debug.Log("Block Hit");
+                collision.gameObject.GetComponent<blockObject>().AddDamage(damage);
                 GameEvents.current.BallHit(collision.gameObject.transform.parent.gameObject);
             }
         }
@@ -179,6 +180,7 @@ public class ballObject : MonoBehaviour
 
                 // Global hit call goes here, pass in collision object
                 //Debug.Log("Block Hit");
+                collision.gameObject.GetComponent<blockObject>().AddDamage(damage);
                 GameEvents.current.BallHit(collision.gameObject.transform.parent.gameObject.transform.parent.gameObject);
             }
         }

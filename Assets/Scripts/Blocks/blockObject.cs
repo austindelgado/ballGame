@@ -144,14 +144,7 @@ public class blockObject : MonoBehaviour
 
     public void BlockHit()
     {
-        // This approach is ugly, find a way to fix the colliders down the road
-        // This same thing is being done for ball collisions for scaling
-        // It's bad
-        //Debug.Log("Block hit for " + damage + " damage");
-
-        AddDamage(GlobalData.Instance.baseDamage); // Block should definitely not be applying it's own damage
-
-        hitThisUpdate = true;
+        //hitThisUpdate = true;
         GameEvents.current.BlockHit(this);
     }
 
