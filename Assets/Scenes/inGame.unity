@@ -160,6 +160,7 @@ MonoBehaviour:
   startingX: 0
   startingY: 0
   startingBuffer: 6
+  enemySpawnBuffer: 8
   maxDepthDiff: 6
   losingHeight: 22
   score: 0

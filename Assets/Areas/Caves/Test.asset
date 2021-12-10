@@ -27,6 +27,7 @@ MonoBehaviour:
   chanceRight: 1
   chanceDown: 1
   chanceLeft: 1
-  enemies: []
-  minEnemies: 0
-  maxEnemies: 0
+  enemies:
+  - {fileID: 7667619911853340986, guid: 8bdf21c87c705cc4f99927301f99deb5, type: 3}
+  minEnemies: 3
+  maxEnemies: 5

@@ -23,6 +23,7 @@ public class GridManager : MonoBehaviour
     public int startingX; // Remove
     public int startingY; // Remove
     public int startingBuffer;
+    public int enemySpawnBuffer;
     public int maxDepthDiff;
     public int losingHeight;
 
@@ -81,7 +82,7 @@ public class GridManager : MonoBehaviour
         }
 
         SpawnBlocks(startingBuffer);
-        //SpawnEnemies(startingBuffer);
+        SpawnEnemies(startingBuffer + enemySpawnBuffer);
         RemoveBlocks();
         MoveBlocks(true);
         CheckAllGravity(true);
@@ -425,14 +426,23 @@ public class GridManager : MonoBehaviour
         // Things break when you do 1,1, no clue why
         int toSpawn = UnityEngine.Random.Range(currentArea.minEnemies, currentArea.maxEnemies);
 
-        //SpawnEnemy(0, buffer +toSpawn);
+        // First attempt at some pseudorandom
 
-        for (int y = buffer + 10; y < rows; y += toSpawn)
+        float enemySpawnChance = 0.01f;
+        float currentEnemySpawnChance = enemySpawnChance;
+
+        for (int y = buffer; y < rows; y++)
         {
-            SpawnEnemy(UnityEngine.Random.Range(0, 4), y);
-            toSpawn = UnityEngine.Random.Range(currentArea.minEnemies, currentArea.maxEnemies);
+            if (toSpawn > 0 && UnityEngine.Random.value < currentEnemySpawnChance)
+            {
+                SpawnEnemy(UnityEngine.Random.Range(0,4), y);
+                toSpawn--;
+                y += 5;
+                currentEnemySpawnChance = enemySpawnChance; 
+            }
+            else if(toSpawn > 0)
+                currentEnemySpawnChance += 0.01f;
         }
-
     }
 
     private void SpawnEnemy(int x, int y)

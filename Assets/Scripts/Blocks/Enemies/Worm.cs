@@ -28,10 +28,8 @@ public class Worm : blockObject
 
         float rng = Random.Range(.75f, 1.25f);
 
-
         head = transform.GetChild(0).gameObject;
         tail = transform.GetChild(3).gameObject;
-
 
         // Improve health code at some point please, turn into a single function in the blockObject class
         AreaDatabase AreaDB = Resources.Load<AreaDatabase>("AreaDB");
@@ -76,47 +74,39 @@ public class Worm : blockObject
         headPosition = piecePositions[0];
 
         // Check the cardinal grid directions, find an open spot
-        List<Vector2> possibleMoves = new List<Vector2>();
+        Vector2 nextMove;
 
-        if (headPosition.y - 1 > -1 && GridManager.manager.grid[(int)headPosition.x, (int)headPosition.y - 1] == null) // Check Up
-        {
-            possibleMoves.Add(new Vector2(0, -1));
-        }
+        // Priority of moves is right -> left -> down -> up -> nothing
+
         if (headPosition.x + 1 < GridManager.manager.cols && GridManager.manager.grid[(int)headPosition.x + 1, (int)headPosition.y] == null) // Check Right
         {
-            possibleMoves.Add(new Vector2(1, 0));
+            nextMove = new Vector2(1, 0);
         }
-        if (headPosition.y + 1 < GridManager.manager.rows && GridManager.manager.grid[(int)headPosition.x, (int)headPosition.y + 1] == null) // Check Down
+        else if (headPosition.x - 1 > -1 && GridManager.manager.grid[(int)headPosition.x - 1, (int)headPosition.y] == null) // Check Left
         {
-            possibleMoves.Add(new Vector2(0, 1));
+            nextMove = new Vector2(-1, 0);
         }
-        if (headPosition.x - 1 > -1 && GridManager.manager.grid[(int)headPosition.x - 1, (int)headPosition.y] == null) // Check Left
+        else if (headPosition.y + 1 < GridManager.manager.rows && GridManager.manager.grid[(int)headPosition.x, (int)headPosition.y + 1] == null) // Check Down
         {
-            possibleMoves.Add(new Vector2(-1, 0));
+            nextMove = new Vector2(0, 1);
         }
-
-        if (possibleMoves.Count == 0) // Worm trapped!
+        else if (headPosition.y - 1 < GridManager.manager.rows && GridManager.manager.grid[(int)headPosition.x, (int)headPosition.y - 1] == null) // Check Up
+        {
+            nextMove = new Vector2(0, -1);
+        }
+        else
+        {
+            // Stuck
             yield break;
-
-        // Pick random direction from open spot, maybe weigh them
-        Vector2 nextMove = possibleMoves[Random.Range(0, possibleMoves.Count)];
-        //Debug.Log(nextMove);
+        }
 
         Vector2 nextPosition = new Vector2(transform.GetChild(0).position.x + (nextMove.x * GridManager.manager.blockSpacing), transform.GetChild(0).position.y - (nextMove.y * GridManager.manager.blockSpacing));
         Vector2 previousPosition;
         Vector2 previousPiecePosition = Vector2.zero;
 
-        // Only need to update grid for first and last position
-
         // Give each dynamic block a move function like in terrainHelper
         // Find next spot for head
         // Call move on all pieces, passing in the next location
-
-
-
-        // Things break when piecePositions go negative
-        // Move  along with worm/
-        // Get rid of  all together?
 
         // Loop through, store previous, move current piece to previous
         Coroutine[] coroutines = new Coroutine[transform.childCount];
