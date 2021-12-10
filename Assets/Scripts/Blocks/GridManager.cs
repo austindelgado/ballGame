@@ -428,7 +428,7 @@ public class GridManager : MonoBehaviour
 
         // First attempt at some pseudorandom
 
-        float enemySpawnChance = 0.01f;
+        float enemySpawnChance = 0.05f;
         float currentEnemySpawnChance = enemySpawnChance;
 
         for (int y = buffer; y < rows; y++)
@@ -441,7 +441,7 @@ public class GridManager : MonoBehaviour
                 currentEnemySpawnChance = enemySpawnChance; 
             }
             else if(toSpawn > 0)
-                currentEnemySpawnChance += 0.01f;
+                currentEnemySpawnChance += 0.05f;
         }
     }
 
