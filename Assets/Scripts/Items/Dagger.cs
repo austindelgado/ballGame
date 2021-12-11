@@ -5,6 +5,7 @@ using UnityEngine;
 public class Dagger : Item
 {
     public float critChance = 0.05f;
+    public int multiplier = 1;
 
     public override void Activate()
     {
@@ -21,12 +22,13 @@ public class Dagger : Item
         if (Random.value < critChance + GlobalData.Instance.luck)
         {
             Debug.Log("Dagger crit!");
-            block.AddDamage(GlobalData.Instance.baseDamage);
+            block.AddDamage(multiplier * GlobalData.Instance.baseDamage);
         }
     }
 
     public override void Stack()
     {
         critChance += 0.05f;
+        multiplier++;
     }
 }

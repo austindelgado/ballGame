@@ -11,7 +11,6 @@ public class MeleeWeapon : MonoBehaviour
     public ParticleSystem swing;
 
     private float timeBtwAttack;
-    public float startTimeBtwAttack;
     public bool canAttack;
     public bool offCooldown;
     private Vector2 attackPos;

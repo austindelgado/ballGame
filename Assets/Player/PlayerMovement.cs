@@ -8,7 +8,6 @@ public class PlayerMovement : MonoBehaviour
 {
     PlayerController controls;
 
-    public int moveSpeed;
     public Rigidbody2D rb;
     public Animator animator;
 

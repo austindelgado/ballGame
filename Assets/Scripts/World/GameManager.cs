@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
 
     public static GameManager manager;
 
+    public PlatformMover platMover;
+
     // UI
     public GameObject gameOverUI;
     public GameObject winUI;
@@ -47,7 +49,7 @@ public class GameManager : MonoBehaviour
         // Animation of player and camera descending
 
         //yield return new WaitForSeconds(.5f);
-        yield return null;
+        yield return StartCoroutine(platMover.MoveStart());
 
         // Once this is done, it's the player's turn
         StartCoroutine(PlayerTurn());
@@ -108,6 +110,7 @@ public class GameManager : MonoBehaviour
 
         //winUI.SetActive(true);
         //inGameUI.SetActive(false);
+        yield return StartCoroutine(platMover.MoveEnd());
 
         // Move to next scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

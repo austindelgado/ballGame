@@ -65,79 +65,84 @@ public class Worm : blockObject
 
     public override IEnumerator Move()
     {
-        //Debug.Log("Worm move!");
-
-        // Worm moves like a snake from snake
-        // Head moves forward, pieces behind go to previous position of piece in front
-
-        // Decide where the head is going
-        headPosition = piecePositions[0];
-
-        // Check the cardinal grid directions, find an open spot
-        Vector2 nextMove;
-
-        // Priority of moves is right -> left -> down -> up -> nothing
-
-        if (headPosition.x + 1 < GridManager.manager.cols && GridManager.manager.grid[(int)headPosition.x + 1, (int)headPosition.y] == null) // Check Right
+        if (piecePositions[0].y - GridManager.manager.playerDepth < 14)
         {
-            nextMove = new Vector2(1, 0);
-        }
-        else if (headPosition.x - 1 > -1 && GridManager.manager.grid[(int)headPosition.x - 1, (int)headPosition.y] == null) // Check Left
-        {
-            nextMove = new Vector2(-1, 0);
-        }
-        else if (headPosition.y + 1 < GridManager.manager.rows && GridManager.manager.grid[(int)headPosition.x, (int)headPosition.y + 1] == null) // Check Down
-        {
-            nextMove = new Vector2(0, 1);
-        }
-        else if (headPosition.y - 1 < GridManager.manager.rows && GridManager.manager.grid[(int)headPosition.x, (int)headPosition.y - 1] == null) // Check Up
-        {
-            nextMove = new Vector2(0, -1);
+            //Debug.Log("Worm move!");
+
+            // Worm moves like a snake from snake
+            // Head moves forward, pieces behind go to previous position of piece in front
+
+            // Decide where the head is going
+            headPosition = piecePositions[0];
+
+            // Check the cardinal grid directions, find an open spot
+            Vector2 nextMove;
+
+            // Priority of moves is right -> left -> down -> up -> nothing
+
+            if (headPosition.x + 1 < GridManager.manager.cols && GridManager.manager.grid[(int)headPosition.x + 1, (int)headPosition.y] == null) // Check Right
+            {
+                nextMove = new Vector2(1, 0);
+            }
+            else if (headPosition.x - 1 > -1 && GridManager.manager.grid[(int)headPosition.x - 1, (int)headPosition.y] == null) // Check Left
+            {
+                nextMove = new Vector2(-1, 0);
+            }
+            else if (headPosition.y + 1 < GridManager.manager.rows && GridManager.manager.grid[(int)headPosition.x, (int)headPosition.y + 1] == null) // Check Down
+            {
+                nextMove = new Vector2(0, 1);
+            }
+            else if (headPosition.y - 1 < GridManager.manager.rows && GridManager.manager.grid[(int)headPosition.x, (int)headPosition.y - 1] == null) // Check Up
+            {
+                nextMove = new Vector2(0, -1);
+            }
+            else
+            {
+                // Stuck
+                yield break;
+            }
+
+            Vector2 nextPosition = new Vector2(transform.GetChild(0).position.x + (nextMove.x * GridManager.manager.blockSpacing), transform.GetChild(0).position.y - (nextMove.y * GridManager.manager.blockSpacing));
+            Vector2 previousPosition;
+            Vector2 previousPiecePosition = Vector2.zero;
+
+            // Give each dynamic block a move function like in terrainHelper
+            // Find next spot for head
+            // Call move on all pieces, passing in the next location
+
+            // Loop through, store previous, move current piece to previous
+            Coroutine[] coroutines = new Coroutine[transform.childCount];
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                Vector2 tempPiecePosition = piecePositions[i];
+                previousPosition = transform.GetChild(i).position;
+
+                if (i == 0)
+                    piecePositions[i] = piecePositions[i] + nextMove; 
+                else
+                    piecePositions[i] = previousPiecePosition;
+
+                coroutines[i] = StartCoroutine(transform.GetChild(i).GetComponent<dynamicPiece>().Move(nextPosition, moveSpeed));
+                previousPiecePosition = tempPiecePosition;
+                nextPosition = previousPosition;
+            }
+            for (int i = 0; i < coroutines.Length; i++)
+                yield return coroutines[i];
+
+            headPosition = piecePositions[0];
+            tailPosition = previousPiecePosition;
+            GridManager.manager.grid[(int)tailPosition.x, (int)tailPosition.y] = null;
+            GridManager.manager.grid[(int)headPosition.x, (int)headPosition.y] = gameObject;
+
+            head = transform.GetChild(0).gameObject;
+            tail = transform.GetChild(3).gameObject;
+
+            UpdateBlocks();
+            FindLowestY();
+            Texture();
         }
         else
-        {
-            // Stuck
             yield break;
-        }
-
-        Vector2 nextPosition = new Vector2(transform.GetChild(0).position.x + (nextMove.x * GridManager.manager.blockSpacing), transform.GetChild(0).position.y - (nextMove.y * GridManager.manager.blockSpacing));
-        Vector2 previousPosition;
-        Vector2 previousPiecePosition = Vector2.zero;
-
-        // Give each dynamic block a move function like in terrainHelper
-        // Find next spot for head
-        // Call move on all pieces, passing in the next location
-
-        // Loop through, store previous, move current piece to previous
-        Coroutine[] coroutines = new Coroutine[transform.childCount];
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            Vector2 tempPiecePosition = piecePositions[i];
-            previousPosition = transform.GetChild(i).position;
-
-            if (i == 0)
-                piecePositions[i] = piecePositions[i] + nextMove; 
-            else
-                piecePositions[i] = previousPiecePosition;
-
-            coroutines[i] = StartCoroutine(transform.GetChild(i).GetComponent<dynamicPiece>().Move(nextPosition, moveSpeed));
-            previousPiecePosition = tempPiecePosition;
-            nextPosition = previousPosition;
-        }
-        for (int i = 0; i < coroutines.Length; i++)
-            yield return coroutines[i];
-
-        headPosition = piecePositions[0];
-        tailPosition = previousPiecePosition;
-        GridManager.manager.grid[(int)tailPosition.x, (int)tailPosition.y] = null;
-        GridManager.manager.grid[(int)headPosition.x, (int)headPosition.y] = gameObject;
-
-        head = transform.GetChild(0).gameObject;
-        tail = transform.GetChild(3).gameObject;
-
-        UpdateBlocks();
-        FindLowestY();
-        Texture();
     }
 
     void UpdateBlocks()

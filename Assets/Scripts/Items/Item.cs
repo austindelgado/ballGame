@@ -56,5 +56,7 @@ public abstract class Item
     public void AddAttackCD(float amount)
     {
         GlobalData.Instance.attackCD += amount;
+        if (GlobalData.Instance.attackCD < 0)
+            GlobalData.Instance.attackCD = 0;
     }
 }
