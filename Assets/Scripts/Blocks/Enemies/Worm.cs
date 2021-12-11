@@ -60,7 +60,7 @@ public class Worm : blockObject
 
     public override void SpawnText()
     {
-        textObject = Instantiate(textPrefab, head.transform.position, Quaternion.Euler(0, 0, 0), head.transform);
+        textObject = Instantiate(textPrefab, transform.GetChild(1).transform.position, Quaternion.Euler(0, 0, 0), transform.GetChild(1).transform);
     }
 
     public override IEnumerator Move()

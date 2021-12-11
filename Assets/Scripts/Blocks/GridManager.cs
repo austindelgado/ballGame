@@ -36,7 +36,7 @@ public class GridManager : MonoBehaviour
     public GameObject[,] grid;
     private int numBlocks;
     public List<GameObject> blocks = new List<GameObject>();
-    public List<GameObject> enemies = new List<GameObject>(); // Enemies are also included in blocks
+    public List<GameObject> enemies = new List<GameObject>();
     public List<Room> rooms = new List<Room>();
 
     [Header("Generation Variables")]
@@ -125,10 +125,11 @@ public class GridManager : MonoBehaviour
             // Check if first block is above the minimum y
             // Player Depth + maxDepthDiff gives min block height
             int depthDiff;
+            depthDiff = Math.Min((int)blocks[0].GetComponent<blockObject>().lowestY - playerDepth - maxDepthDiff, (int)enemies[0].GetComponent<blockObject>().lowestY - playerDepth - maxDepthDiff);
+
             if (rooms.Count != 0)
-                depthDiff = Math.Min((int)blocks[0].GetComponent<blockObject>().lowestY - playerDepth - maxDepthDiff, rooms[0].roomDepth - playerDepth);
-            else
-                depthDiff = (int)blocks[0].GetComponent<blockObject>().lowestY - playerDepth - maxDepthDiff;
+                depthDiff = Math.Min(depthDiff, rooms[0].roomDepth - playerDepth);
+                
             if (depthDiff > 0)
             {
                 playerDepth += depthDiff;
@@ -141,7 +142,7 @@ public class GridManager : MonoBehaviour
             }
         }
 
-        if ((int)blocks[0].GetComponent<blockObject>().lowestY == playerDepth + 1) // Block here!
+        if ((int)blocks[0].GetComponent<blockObject>().lowestY == playerDepth + 1 || (int)enemies[0].GetComponent<blockObject>().lowestY == playerDepth + 1) // Block here!
         {
             StartCoroutine(GameManager.manager.LevelLost());
             yield break;
@@ -463,7 +464,6 @@ public class GridManager : MonoBehaviour
             Remove(grid[x, y], true);
 
         enemies.Add(newEnemy);
-        blocks.Add(newEnemy);
 
         // Consider moving this into the block
         //foreach (Vector2 piece in newEnemy.GetComponent<blockObject>().piecePositions)
@@ -506,8 +506,8 @@ public class GridManager : MonoBehaviour
         // Check if this is also an enemy
         if (block.tag == "Enemy")
             enemies.Remove(block);
-
-        blocks.Remove(block); // Remove from list
+        else
+            blocks.Remove(block); // Remove from list
 
         foreach (Vector2 piecePos in block.GetComponent<blockObject>().piecePositions)
         {

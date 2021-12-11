@@ -219,6 +219,8 @@ public class ballObject : MonoBehaviour
     public void Size(float newSize)
     {
         size = newSize;
+        if (size < .25f)
+            size = .25f;
         gameObject.transform.localScale = new Vector3(size * 2, size * 2, 1);
     }
 }
