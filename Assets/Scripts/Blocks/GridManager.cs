@@ -35,8 +35,8 @@ public class GridManager : MonoBehaviour
 
     public GameObject[,] grid;
     private int numBlocks;
-    private List<GameObject> blocks = new List<GameObject>();
-    private List<GameObject> enemies = new List<GameObject>(); // Enemies are also included in blocks
+    public List<GameObject> blocks = new List<GameObject>();
+    public List<GameObject> enemies = new List<GameObject>(); // Enemies are also included in blocks
     public List<Room> rooms = new List<Room>();
 
     [Header("Generation Variables")]
@@ -411,7 +411,7 @@ public class GridManager : MonoBehaviour
         }
 
         // This block is staying, give it a chance to have gems
-        if (UnityEngine.Random.value <= .2 + GlobalData.Instance.luck)
+        if (UnityEngine.Random.value <= currentArea.gemChance + GlobalData.Instance.luck)
             newBlock.GetComponent<blockObject>().gemmed = true;
     }
 
@@ -428,7 +428,7 @@ public class GridManager : MonoBehaviour
 
         // First attempt at some pseudorandom
 
-        float enemySpawnChance = 0.05f;
+        float enemySpawnChance = 0.1f;
         float currentEnemySpawnChance = enemySpawnChance;
 
         for (int y = buffer; y < rows; y++)
@@ -437,26 +437,27 @@ public class GridManager : MonoBehaviour
             {
                 SpawnEnemy(UnityEngine.Random.Range(0,4), y);
                 toSpawn--;
-                y += 5;
+                y += 3;
                 currentEnemySpawnChance = enemySpawnChance; 
             }
             else if(toSpawn > 0)
-                currentEnemySpawnChance += 0.05f;
+                currentEnemySpawnChance += 0.1f;
         }
     }
 
     private void SpawnEnemy(int x, int y)
     {
         // Creates parent block
-        GameObject newEnemy = Instantiate(currentArea.enemies[0], new Vector2(startingX + (blockSpacing * x), startingY - (blockSpacing * y)), Quaternion.Euler(0, 0, 0));
+        int enemyPick = UnityEngine.Random.Range(0, currentArea.enemies.Length);
+        GameObject newEnemy = Instantiate(currentArea.enemies[enemyPick], new Vector2(startingX + (blockSpacing * x), startingY - (blockSpacing * y)), Quaternion.Euler(0, 0, 0));
         newEnemy.transform.parent = gameObject.transform.GetChild(1);
-        newEnemy.name = currentArea.enemies[0].name;
+        newEnemy.name = currentArea.enemies[enemyPick].name;
 
         // If we make it here, we're spawning this enemy
         // Go over all pieces, delete any blocks there
 
         // If there is a block here, delete it
-        //Debug.Log("Adding enemy " + newEnemy.name);
+        Debug.Log("Adding enemy " + newEnemy.name);
 
         if (grid[x, y] != null)
             Remove(grid[x, y], true);

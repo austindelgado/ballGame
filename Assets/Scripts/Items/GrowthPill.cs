@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GrowthPill : Item
 {
-    float amount = 0.1f;
+    float amount = 0.25f;
 
     public override void Activate()
     {

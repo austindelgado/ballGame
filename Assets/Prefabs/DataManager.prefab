@@ -52,6 +52,7 @@ MonoBehaviour:
   ballStartingHealth: 7
   baseDamage: 1
   aimIncrease: 0
+  split: 0
   restock: 0
   luck: 0
   gems: 0

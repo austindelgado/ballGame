@@ -114,7 +114,7 @@ public class ballLauncher : MonoBehaviour
         for (int i = 0; i < numToLaunch; i++)
         {
             GameObject ball = Instantiate(ballPrefab, transform.position, transform.rotation, parent);
-
+            ball.GetComponent<ballObject>().Size(GlobalData.Instance.ballSize);
             defaultLaunchEffect.Launch(ball, shotDirection);
             ball.name = "Ball " + (i + 1);
 

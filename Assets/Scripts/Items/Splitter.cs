@@ -2,22 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShrinkRay : Item
+public class Splitter : Item
 {
-    float amount = -0.25f;
-
     public override void Activate()
     {
-        AddBallSize(amount);
+        GlobalData.Instance.split = true;
     }
 
     public override void Deactivate()
     {
 
-    }
-
-    public override void Stack()
-    {
-        Activate();
     }
 }

@@ -8,6 +8,9 @@ public class MeleeWeapon : MonoBehaviour
     public PlayerMovement player;
     public Animator animator;
 
+    public GameObject ballPrefab; // These needs to be moved
+    public Transform parent;
+
     public ParticleSystem swing;
 
     private float timeBtwAttack;
@@ -19,11 +22,13 @@ public class MeleeWeapon : MonoBehaviour
     public float attackRange;
 
     public int angle;
-    public Quaternion angleOffset;
+    private Quaternion angleOffsetL;
+    private Quaternion angleOffsetR;
 
     void Start()
     {
-        //angleOffset = Quaternion.AngleAxis(angle, Vector3.forward);
+        angleOffsetL = Quaternion.AngleAxis(angle, Vector3.forward);
+        angleOffsetR = Quaternion.AngleAxis(-angle, Vector3.forward);
     }
 
     void Update()
@@ -55,14 +60,48 @@ public class MeleeWeapon : MonoBehaviour
             Collider2D[] hitColliders = Physics2D.OverlapCircleAll(attackPos, attackRange, layer);
             foreach (var hitCollider in hitColliders)
             {
-                // Send ball other way
+
                 if (hitCollider.gameObject.tag == "Ball")
                 {
-                    Debug.Log("Ball hit");
-                    //hitCollider.gameObject.GetComponent<ballObject>().damage++;
-                    hitCollider.gameObject.GetComponent<ballObject>().currDirection = player.lookDir;
-                    hitCollider.gameObject.GetComponent<ballObject>().Bounce();
-                    hitCollider.gameObject.GetComponent<ballObject>().shotSpeed += 5f;
+                    // Send ball other way
+                    if (GlobalData.Instance.split)
+                    {
+                        Debug.Log("Split hit");
+                        if (hitCollider.gameObject.GetComponent<ballObject>().size > .25f) // Split ball if it's greater than .25
+                        {
+                            // Spawn two new balls after destroying old one
+                            float size = hitCollider.gameObject.GetComponent<ballObject>().size * .5f;
+                            float health = hitCollider.gameObject.GetComponent<ballObject>().currentHealth;
+                            Vector2 pos = hitCollider.gameObject.transform.position; // Half of original size
+                            Destroy(hitCollider.gameObject);
+
+                            // Ball 1
+                            GameObject ball1 = Instantiate(ballPrefab, pos, transform.rotation, parent);
+                            new StraightShot().Launch(ball1, angleOffsetR * player.lookDir);
+                            ball1.GetComponent<ballObject>().Size(size);
+                            ball1.GetComponent<ballObject>().currentHealth = health;
+
+                            // Ball 2
+                            GameObject ball2 = Instantiate(ballPrefab, pos, transform.rotation, parent);
+                            new StraightShot().Launch(ball2, angleOffsetL * player.lookDir);
+                            ball2.GetComponent<ballObject>().Size(size);
+                            ball2.GetComponent<ballObject>().currentHealth = health;
+                        }
+                        else
+                        {
+                            hitCollider.gameObject.GetComponent<ballObject>().currDirection = player.lookDir;
+                            hitCollider.gameObject.GetComponent<ballObject>().Bounce();
+                            hitCollider.gameObject.GetComponent<ballObject>().shotSpeed += 5f;
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("Ball hit");
+                        //hitCollider.gameObject.GetComponent<ballObject>().damage++;
+                        hitCollider.gameObject.GetComponent<ballObject>().currDirection = player.lookDir;
+                        hitCollider.gameObject.GetComponent<ballObject>().Bounce();
+                        hitCollider.gameObject.GetComponent<ballObject>().shotSpeed += 5f;
+                    }
                 }
             }
         }

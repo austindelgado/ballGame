@@ -19,6 +19,7 @@ public class Area : ScriptableObject
     public int maxBlockSize;
     public int minBlockSize;
     public float deletePercentage;
+    public float gemChance;
     public int chanceUp;
     public int chanceRight;
     public int chanceDown;

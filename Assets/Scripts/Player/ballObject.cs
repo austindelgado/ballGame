@@ -25,7 +25,7 @@ public class ballObject : MonoBehaviour
     public float size;
     public int damage;
     public float startingHealth;
-    private float currentHealth;
+    public float currentHealth;
     public LayerMask ballLayer;
 
     [Header("HP Colors")]
@@ -45,12 +45,13 @@ public class ballObject : MonoBehaviour
         launchManager = GameObject.Find("Ball Launcher");
         shotSpeed = launchManager.GetComponent<ballLauncher>().ballSpeed;
         startingHealth = GlobalData.Instance.ballStartingHealth;
-        currentHealth = startingHealth;
+        if (currentHealth == 0)
+            currentHealth = startingHealth;
 
         // Change size for circleCast but change scale on ball
-        size = GlobalData.Instance.ballSize;
+        //size = GlobalData.Instance.ballSize;
         damage = GlobalData.Instance.baseDamage;
-        gameObject.transform.localScale = new Vector3(size * 2, size * 2, 1);
+        //gameObject.transform.localScale = new Vector3(size * 2, size * 2, 1);
 
         Bounce();
     }
@@ -157,12 +158,22 @@ public class ballObject : MonoBehaviour
         //currDirection = nextDirection;
         //Bounce();
 
+        // Gotta clean this up soon
+
         if (collision.gameObject.tag == "Block")
         {
             // EW! Doing this fixes hitting in between colliders but messes up corner hits
             // Find a better solution
             if (!collision.gameObject.transform.parent.gameObject.GetComponent<blockObject>().hitThisUpdate)
             {
+                if (collision.gameObject.GetComponent<pieceObject>().spikey == true)
+                {
+                    currentHealth -= 7;
+                    if (currentHealth <= 0)
+                        Destroy(gameObject);
+                    return;
+                }
+
                 currentHealth = startingHealth;
                 launchManager.GetComponent<ballLauncher>().currentHits++; // This can be decoupled and added to the OnBallHit
 
@@ -203,5 +214,11 @@ public class ballObject : MonoBehaviour
     {
         // Multiply this by 10^n where n is the number of decimals
         return new Vector2(Mathf.Round(input.x * 1000f) / 1000f, Mathf.Round(input.y * 1000f) / 1000f);
+    }
+
+    public void Size(float newSize)
+    {
+        size = newSize;
+        gameObject.transform.localScale = new Vector3(size * 2, size * 2, 1);
     }
 }

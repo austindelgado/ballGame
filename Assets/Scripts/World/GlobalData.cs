@@ -20,6 +20,7 @@ public class GlobalData : MonoBehaviour
     public int ballStartingHealth;
     public int baseDamage;
     public bool aimIncrease;
+    public bool split; // Change this at some point
     public bool restock;
     public float luck;
     public int gems;

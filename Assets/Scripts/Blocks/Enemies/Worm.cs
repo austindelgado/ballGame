@@ -26,7 +26,7 @@ public class Worm : blockObject
 
         // Pick random head, maybe change to head closer to middle?
 
-        float rng = Random.Range(.75f, 1.25f);
+        float rng = Random.Range(1.25f, 2f);
 
         head = transform.GetChild(0).gameObject;
         tail = transform.GetChild(3).gameObject;
