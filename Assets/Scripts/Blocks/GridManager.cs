@@ -124,8 +124,10 @@ public class GridManager : MonoBehaviour
             // Actually move the level
             // Check if first block is above the minimum y
             // Player Depth + maxDepthDiff gives min block height
-            int depthDiff;
-            depthDiff = Math.Min((int)blocks[0].GetComponent<blockObject>().lowestY - playerDepth - maxDepthDiff, (int)enemies[0].GetComponent<blockObject>().lowestY - playerDepth - maxDepthDiff);
+            int depthDiff = (int)blocks[0].GetComponent<blockObject>().lowestY - playerDepth - maxDepthDiff;
+
+            if (enemies.Count != 0)
+                depthDiff = Math.Min(depthDiff, (int)enemies[0].GetComponent<blockObject>().lowestY - playerDepth - maxDepthDiff);
 
             if (rooms.Count != 0)
                 depthDiff = Math.Min(depthDiff, rooms[0].roomDepth - playerDepth);
@@ -142,13 +144,30 @@ public class GridManager : MonoBehaviour
             }
         }
 
-        if ((int)blocks[0].GetComponent<blockObject>().lowestY == playerDepth + 1 || (int)enemies[0].GetComponent<blockObject>().lowestY == playerDepth + 1) // Block here!
+        // Write GetLowestBlock and GetLowestEnemy to avoid errors here
+        if (GetLowestBlock() == playerDepth + 1 || GetLowestEnemy() == playerDepth + 1) // Block here!
         {
             StartCoroutine(GameManager.manager.LevelLost());
             yield break;
         }
 
         yield return null;
+    }
+
+    private int GetLowestBlock()
+    {
+        if (blocks.Count != 0)
+            return (int)blocks[0].GetComponent<blockObject>().lowestY;
+        else
+            return 100000000; // Change this
+    }
+
+    private int GetLowestEnemy()
+    {
+        if (enemies.Count != 0)
+            return (int)enemies[0].GetComponent<blockObject>().lowestY;
+        else
+            return 100000000;
     }
 
     public IEnumerator MoveEnemies()
