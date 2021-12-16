@@ -9,8 +9,10 @@ public class TransparencyToggle : MonoBehaviour
 
     public void Toggle()
     {
+        Debug.Log("Toggling worm outer");
+
         if (visible)
-            StartCoroutine(FadeOut());
+            StartCoroutine(FadeIn());
         else
             StartCoroutine(FadeIn());
     }
@@ -18,16 +20,16 @@ public class TransparencyToggle : MonoBehaviour
     private IEnumerator FadeOut()
     {
         float alphaVal = sprite.color.a;
-         Color tmp = sprite.color;
+        Color tmp = sprite.color;
  
-         while (sprite.color.a < 1)
-         {
-             alphaVal += 0.01f;
-             tmp.a = alphaVal;
-             sprite.color = tmp;
- 
-             yield return new WaitForSeconds(0.05f); // update interval
-         }
+        while (sprite.color.a < 1)
+        {
+            alphaVal += 0.05f;
+            tmp.a = alphaVal;
+            sprite.color = tmp;
+
+            yield return new WaitForSeconds(0.01f); // update interval
+        }
     }
 
     private IEnumerator FadeIn()
@@ -37,11 +39,11 @@ public class TransparencyToggle : MonoBehaviour
  
          while (sprite.color.a > 0)
          {
-             alphaVal -= 0.01f;
+             alphaVal -= 0.05f;
              tmp.a = alphaVal;
              sprite.color = tmp;
  
-             yield return new WaitForSeconds(0.05f); // update interval
+             yield return new WaitForSeconds(0.01f); // update interval
          }
     }
 }

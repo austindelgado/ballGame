@@ -67,8 +67,13 @@ public class GridManager : MonoBehaviour
         AreaDatabase AreaDB = Resources.Load<AreaDatabase>("AreaDB");
         currentArea = AreaDB.areas[GlobalData.Instance.areaNum];
 
+        startingX = currentArea.startingX;
+        startingY = currentArea.startingY;
+
         // Rows is decided based off level size
-        rows = currentArea.depth;
+        rows = currentArea.rows;
+        cols = currentArea.cols;
+        
         // Use this for inital spawn
         grid = new GameObject[cols, rows + 1];
         // Rows = y
@@ -81,8 +86,8 @@ public class GridManager : MonoBehaviour
             }
         }
 
-        SpawnBlocks(startingBuffer);
-        SpawnEnemies(startingBuffer + enemySpawnBuffer);
+        SpawnBlocks(currentArea.startingBuffer);
+        SpawnEnemies(currentArea.startingBuffer + currentArea.enemySpawnBuffer);
         RemoveBlocks();
         MoveBlocks(true);
         CheckAllGravity(true);

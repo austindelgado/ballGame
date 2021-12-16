@@ -112,8 +112,14 @@ public class GameManager : MonoBehaviour
         //inGameUI.SetActive(false);
         yield return StartCoroutine(platMover.MoveEnd());
 
+        // Increment player level count
+        GlobalData.Instance.areaNum++;
+
         // Move to next scene
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        if (GlobalData.Instance.areaNum % 2 == 0)
+            SceneManager.LoadScene(2);
+        else
+            SceneManager.LoadScene(1);
 
         yield return null;
     }
@@ -128,8 +134,8 @@ public class GameManager : MonoBehaviour
         //inGameUI.SetActive(false);
 
         // Back to menu
-        SceneManager.LoadScene(0);
         Destroy(GlobalData.Instance);
+        SceneManager.LoadScene(0);
 
         yield return null;
     }

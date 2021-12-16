@@ -18,8 +18,13 @@ MonoBehaviour:
   gemUnlocked: {fileID: 2100000, guid: 872251d2e76c0e14b80740f429d2c7d7, type: 2}
   gemLocked: {fileID: 2100000, guid: cffa84a318ed2b943bc5562197b50fcf, type: 2}
   bg: {fileID: 0}
-  depth: 50
   depthMod: 0.5
+  startingX: 0
+  startingY: 0
+  rows: 50
+  cols: 7
+  startingBuffer: 6
+  enemySpawnBuffer: 8
   maxBlockSize: 4
   minBlockSize: 3
   deletePercentage: 0.4
