@@ -58,7 +58,7 @@ public class ballLauncher : MonoBehaviour
         Time.timeScale = 1.0f;
         shotFired = false;
         ballsToLaunch = GlobalData.Instance.ballsToLaunch;
-        hitsToUpgrade = ballsToLaunch * upgradeModifier;
+        //hitsToUpgrade = ballsToLaunch * upgradeModifier;
     }
 
     // Update is called once per frame
@@ -88,19 +88,19 @@ public class ballLauncher : MonoBehaviour
                 }
 
                 // Update things
-                numBallsText.GetComponent<TMP_Text>().text = GlobalData.Instance.ballsToLaunch.ToString();
-                numUpgradeText.GetComponent<TMP_Text>().text = (hitsToUpgrade - currentHits).ToString();
-                if (currentHits >= hitsToUpgrade)
-                {
-                    GlobalData.Instance.ballsToLaunch++;
-                    currentHits = 0;
+                // numBallsText.GetComponent<TMP_Text>().text = GlobalData.Instance.ballsToLaunch.ToString();
+                // numUpgradeText.GetComponent<TMP_Text>().text = (hitsToUpgrade - currentHits).ToString();
+                // if (currentHits >= hitsToUpgrade)
+                // {
+                //     GlobalData.Instance.ballsToLaunch++;
+                //     currentHits = 0;
 
-                    // Need formula to get next hitsToUpgrade
-                    hitsToUpgrade = GlobalData.Instance.ballsToLaunch * upgradeModifier;
+                //     // Need formula to get next hitsToUpgrade
+                //     hitsToUpgrade = GlobalData.Instance.ballsToLaunch * upgradeModifier;
 
-                    if (shotFired)
-                        StartCoroutine(LaunchDelay(1)); 
-                }
+                //     if (shotFired)
+                //         StartCoroutine(LaunchDelay(1)); 
+                // }
             }
         }
         else
@@ -217,10 +217,5 @@ public class ballLauncher : MonoBehaviour
             // This is where the shot is launched
             StartCoroutine(LaunchDelay(GlobalData.Instance.ballsToLaunch));
         }
-    }
-
-    void OnShoot()
-    {
-
     }
 }
