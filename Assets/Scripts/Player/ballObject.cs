@@ -53,7 +53,10 @@ public class ballObject : MonoBehaviour
         damage = GlobalData.Instance.baseDamage;
         //gameObject.transform.localScale = new Vector3(size * 2, size * 2, 1);
 
-        Bounce();
+        rb = GetComponent<Rigidbody2D>();
+        rb.velocity = currDirection.normalized * shotSpeed;
+
+        //Bounce();
     }
 
     void OnDestroy()
@@ -80,20 +83,20 @@ public class ballObject : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!bouncing)
-        {
-            float step = shotSpeed * Time.fixedDeltaTime;
-            transform.position = Vector2.MoveTowards(transform.position, nextPosition, step);
-        }
+        // if (!bouncing)
+        // {
+        //     float step = shotSpeed * Time.fixedDeltaTime;
+        //     transform.position = Vector2.MoveTowards(transform.position, nextPosition, step);
+        // }
 
-        //if (nextPosition == (Vector2)transform.position) // I think this is too imprecise
-        if (Vector2.Distance((Vector2)transform.position, nextPosition) < 0.0001f)
-        {
-            //Debug.Log("Actual: " + transform.position.ToString("F4") + ", Expected: " + nextPosition.ToString("F4"));
-            transform.position = nextPosition;
-            currDirection = nextDirection;
-            Bounce();
-        }
+        // //if (nextPosition == (Vector2)transform.position) // I think this is too imprecise
+        // if (Vector2.Distance((Vector2)transform.position, nextPosition) < 0.0001f)
+        // {
+        //     //Debug.Log("Actual: " + transform.position.ToString("F4") + ", Expected: " + nextPosition.ToString("F4"));
+        //     transform.position = nextPosition;
+        //     currDirection = nextDirection;
+        //     Bounce();
+        // }
     }
 
     public void Bounce()
@@ -208,6 +211,65 @@ public class ballObject : MonoBehaviour
 
             GameEvents.current.BallHit(collision.gameObject);
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("Ball collision");
+
+        Vector2 towardsCollision = collision.contacts[0].point - (Vector2)transform.position;
+        Ray2D ray = new Ray2D(transform.position, towardsCollision);
+ 
+        // raycast for bricks
+        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, 1f, ~ballLayer);
+        if(collision.gameObject.tag == "Block")
+        {
+            if (collision.gameObject.GetComponent<pieceObject>().spikey == true)
+            {
+                currentHealth -= 7;
+                if (currentHealth <= 0)
+                    Destroy(gameObject);
+                return;
+            }
+
+            currentHealth = startingHealth;
+            launchManager.GetComponent<ballLauncher>().currentHits++; // This can be decoupled and added to the OnBallHit
+
+            // Global hit call goes here, pass in collision object
+            //Debug.Log("Block Hit");
+            collision.gameObject.transform.parent.GetComponent<blockObject>().AddDamage(damage);
+            GameEvents.current.BallHit(collision.gameObject.transform.parent.gameObject);
+        }
+        else if (collision.gameObject.tag == "Enemy") // It only gets worse
+        {
+            if (!collision.gameObject.transform.parent.gameObject.transform.parent.GetComponent<blockObject>().hitThisUpdate)
+            {
+                currentHealth = startingHealth;
+                launchManager.GetComponent<ballLauncher>().currentHits++;
+
+                // Global hit call goes here, pass in collision object
+                //Debug.Log("Block Hit");
+                collision.gameObject.transform.parent.gameObject.transform.parent.GetComponent<blockObject>().AddDamage(damage);
+                GameEvents.current.BallHit(collision.gameObject.transform.parent.gameObject.transform.parent.gameObject);
+            }
+        }
+        else if (collision.gameObject.tag == "Player")
+        {
+            Debug.Log("Bat hit!");
+        }
+        else
+        {
+            currentHealth--;
+            if (currentHealth <= 0)
+                Destroy(gameObject);
+
+            GameEvents.current.BallHit(collision.gameObject);
+        }
+    }
+
+    public void Hit(Vector2 hitDirection)
+    {
+        rb.velocity = hitDirection.normalized * shotSpeed;
     }
 
     Vector2 Round(Vector2 input)

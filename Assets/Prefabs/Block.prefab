@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -48,13 +49,15 @@ MonoBehaviour:
   hitThisUpdate: 0
   textPrefab: {fileID: 4746699166064011162, guid: b9ab2263649a24248bbd4455600555cf, type: 3}
   textObject: {fileID: 0}
-  hitEffect: {fileID: 2408842227126624787, guid: 71ebf7dcbad636542ab152b060f5e3ec, type: 3}
   depthMod: 0.25
   depth: 0
   locked: 0
+  gemmed: 0
   uniqueMove: 0
   startingPosition: {x: 0, y: 0}
   piecePositions: []
   lowestY: 0
   unlockedMat: {fileID: 0}
   lockedMat: {fileID: 0}
+  gemUnlockedMat: {fileID: 0}
+  gemLockedMat: {fileID: 0}

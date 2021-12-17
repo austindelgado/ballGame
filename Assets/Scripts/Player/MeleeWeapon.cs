@@ -99,9 +99,8 @@ public class MeleeWeapon : MonoBehaviour
             {
                 Debug.Log("Ball hit");
                 collision.gameObject.GetComponent<ballObject>().damage++;
-                collision.gameObject.GetComponent<ballObject>().currDirection = player.lookDir;
-                collision.gameObject.GetComponent<ballObject>().Bounce();
                 collision.gameObject.GetComponent<ballObject>().shotSpeed += 5f;
+                collision.gameObject.GetComponent<ballObject>().Hit(player.lookDir);
             }
         }
     }
