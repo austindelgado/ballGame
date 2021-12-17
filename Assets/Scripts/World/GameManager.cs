@@ -115,10 +115,10 @@ public class GameManager : MonoBehaviour
         // Increment player level count
         GlobalData.Instance.areaNum++;
 
-        // Move to next scene
-        if (GlobalData.Instance.areaNum % 2 == 0)
-            SceneManager.LoadScene(2);
-        else
+        // // Move to next scene
+        // if (GlobalData.Instance.areaNum % 2 == 0)
+        //     SceneManager.LoadScene(2);
+        // else
             SceneManager.LoadScene(1);
 
         yield return null;

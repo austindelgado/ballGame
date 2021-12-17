@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1906959190}
   - component: {fileID: 1906959187}
   - component: {fileID: 1906959189}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Ball Launcher
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -200,6 +200,7 @@ MonoBehaviour:
   ballPrefab: {fileID: 2243415138179414134, guid: cf7c535fe74414e489fc55a979fa53b4, type: 3}
   sprite: {fileID: 1906959190}
   lineRend: {fileID: 1906959187}
+  canShoot: 1
   shotFired: 0
   aim: 0
   posUpdated: 0
@@ -207,7 +208,7 @@ MonoBehaviour:
   ballSpeed: 25
   currentHits: 0
   hitsToUpgrade: 10
-  upgradeModifier: 20
+  upgradeModifier: 25
   ballsToLaunch: 3
   ballDelay: 0.1
   ballLayer:
@@ -230,7 +231,7 @@ GameObject:
   - component: {fileID: 8647559402206175457}
   - component: {fileID: 8647559402206175456}
   - component: {fileID: 1070647048}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -294,7 +295,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 5
   m_Sprite: {fileID: 1915236698, guid: 86be81da4750e4f479995b5737793ac3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -339,12 +340,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbea01f0b33c93c4fa710f0ae6e5807d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 15
   rb: {fileID: 8647559402206175463}
   animator: {fileID: 8647559402206175456}
   move: {x: 0, y: 0}
   lookDir: {x: 0, y: 0}
   lookLeft: 0
+  currentShopSlot: {fileID: 0}
+  bLauncher: {fileID: 1906959189}
+  mWeapon: {fileID: 8224652769677021568}
 --- !u!61 &8647559402206175457
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -433,7 +436,8 @@ GameObject:
   - component: {fileID: 8224652769677021568}
   - component: {fileID: 252521279425272218}
   - component: {fileID: 840827309}
-  m_Layer: 0
+  - component: {fileID: 1805549471}
+  m_Layer: 9
   m_Name: Bat
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -449,7 +453,7 @@ Transform:
   m_GameObject: {fileID: 9146990587015308085}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.275, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8647559402206175459}
@@ -469,15 +473,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 8647559402206175462}
   animator: {fileID: 840827309}
+  ballPrefab: {fileID: 2243415138179414134, guid: cf7c535fe74414e489fc55a979fa53b4, type: 3}
+  parent: {fileID: 0}
   swing: {fileID: 872810480943976875, guid: 0a92040673102c349b8797a443e09a77, type: 3}
-  startTimeBtwAttack: 0.25
+  canAttack: 1
+  offCooldown: 0
   attackOffset: 3
   layer:
     serializedVersion: 2
     m_Bits: 256
-  attackRange: 4
-  angle: 30
-  angleOffset: {x: 0, y: 0, z: 0, w: 0}
+  attackRange: 3
+  angle: 15
 --- !u!212 &252521279425272218
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -518,16 +524,16 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
-  m_Sprite: {fileID: 784027518, guid: ace584a6facf8a547a1ef606480589e0, type: 3}
+  m_SortingOrder: 6
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!95 &840827309
@@ -540,7 +546,7 @@ Animator:
   m_GameObject: {fileID: 9146990587015308085}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: baf6b0b6a52229742a9d1a2a56f94ccd, type: 2}
+  m_Controller: {fileID: 9100000, guid: 6f470f7e1d4716647a8dccf48f1f0545, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -550,3 +556,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!70 &1805549471
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9146990587015308085}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.05}
+  m_Size: {x: 1, y: 1.25}
+  m_Direction: 0

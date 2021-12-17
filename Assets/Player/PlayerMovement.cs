@@ -76,6 +76,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnEscape()
     {
+        Destroy(GlobalData.Instance);
         SceneManager.LoadScene(0);
     }
 
