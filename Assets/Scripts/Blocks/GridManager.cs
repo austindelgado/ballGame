@@ -111,7 +111,7 @@ public class GridManager : MonoBehaviour
         // Give each block object the responsibility of moving?
     public IEnumerator MoveBlocks(bool start) // Grid position does not change with this call, moves ALL blocks
     {
-        if (blocks.Count == 0)
+        if (blocks.Count == 0 && enemies.Count == 0)
         {
             // Store playerDepth
             GlobalData.Instance.playerDepth += playerDepth;
