@@ -32,9 +32,9 @@ public class ballLauncher : MonoBehaviour
 
     public float ballSpeed;
     public float currentHits;
-    public float hitsToUpgrade;
     public float upgradeModifier;
-    public float ballsToLaunch;
+    public int currentBalls;
+    public int totalBalls;
     public float ballDelay;
     public LayerMask ballLayer;
 
@@ -57,7 +57,7 @@ public class ballLauncher : MonoBehaviour
     {
         Time.timeScale = 1.0f;
         shotFired = false;
-        ballsToLaunch = GlobalData.Instance.ballsToLaunch;
+        totalBalls = GlobalData.Instance.ballsToLaunch;
         //hitsToUpgrade = ballsToLaunch * upgradeModifier;
     }
 
@@ -76,7 +76,7 @@ public class ballLauncher : MonoBehaviour
             if (GameManager.manager.state == GameState.INGAME)
             {
                 // Get next shot ready
-                if (shotFired && parent.childCount == 0)
+                if (parent.childCount < totalBalls)
                 {
                     shotFired = false;
                     posUpdated = false;
@@ -111,15 +111,12 @@ public class ballLauncher : MonoBehaviour
 
     IEnumerator LaunchDelay(float numToLaunch)
     {
-        for (int i = 0; i < numToLaunch; i++)
-        {
-            GameObject ball = Instantiate(ballPrefab, transform.position, transform.rotation, parent);
-            ball.GetComponent<ballObject>().Size(GlobalData.Instance.ballSize);
-            defaultLaunchEffect.Launch(ball, shotDirection);
-            ball.name = "Ball " + (i + 1);
+        GameObject ball = Instantiate(ballPrefab, transform.position, transform.rotation, parent);
+        ball.GetComponent<ballObject>().Size(GlobalData.Instance.ballSize);
+        defaultLaunchEffect.Launch(ball, shotDirection);
+        ball.name = "Ball " + parent.childCount + 1;
 
-            yield return new WaitForSeconds(ballDelay);
-        }
+        yield return new WaitForSeconds(ballDelay);
     }
 
     IEnumerator SpeedUp()
@@ -154,7 +151,7 @@ public class ballLauncher : MonoBehaviour
     {
         Debug.Log("Aiming");
 
-        if (!shotFired && canShoot && GameManager.manager.state == GameState.INGAME)
+        if (parent.childCount < totalBalls && canShoot && GameManager.manager.state == GameState.INGAME)
         {
             // Raycasting
             RaycastHit2D hit = Physics2D.CircleCast(transform.position, GlobalData.Instance.ballSize, player.lookDir);
@@ -203,7 +200,7 @@ public class ballLauncher : MonoBehaviour
 
     void Shoot()
     {
-        if (!shotFired && GameManager.manager.state == GameState.INGAME)
+        if (parent.childCount < totalBalls && GameManager.manager.state == GameState.INGAME)
         {
             lineRend.positionCount = 0;
             shotFired = true;
