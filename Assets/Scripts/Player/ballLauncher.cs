@@ -73,7 +73,7 @@ public class ballLauncher : MonoBehaviour
             if (aim)
                 Aim();
 
-            if (GameManager.manager.state == GameState.PLAYERTURN)
+            if (GameManager.manager.state == GameState.INGAME)
             {
                 // Get next shot ready
                 if (shotFired && parent.childCount == 0)
@@ -84,7 +84,7 @@ public class ballLauncher : MonoBehaviour
                     sprite.enabled = true;
 
                     // Player turn over, call enemyTurn
-                    GameManager.manager.PlayerTurnOver();
+                    //GameManager.manager.PlayerTurnOver();
                 }
 
                 // Update things
@@ -154,7 +154,7 @@ public class ballLauncher : MonoBehaviour
     {
         Debug.Log("Aiming");
 
-        if (!shotFired && canShoot && GameManager.manager.state == GameState.PLAYERTURN)
+        if (!shotFired && canShoot && GameManager.manager.state == GameState.INGAME)
         {
             // Raycasting
             RaycastHit2D hit = Physics2D.CircleCast(transform.position, GlobalData.Instance.ballSize, player.lookDir);
@@ -203,7 +203,7 @@ public class ballLauncher : MonoBehaviour
 
     void Shoot()
     {
-        if (!shotFired && GameManager.manager.state == GameState.PLAYERTURN)
+        if (!shotFired && GameManager.manager.state == GameState.INGAME)
         {
             lineRend.positionCount = 0;
             shotFired = true;

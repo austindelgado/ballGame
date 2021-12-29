@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using UnityEngine.SceneManagement;
 
-public enum GameState { START, PLAYERTURN, ENEMYTURN, WON, LOST }
+public enum GameState { START, INGAME, WON, LOST }
 
 public class GameManager : MonoBehaviour
 {
@@ -52,54 +52,63 @@ public class GameManager : MonoBehaviour
         yield return StartCoroutine(platMover.MoveStart());
 
         // Once this is done, it's the player's turn
-        StartCoroutine(PlayerTurn());
+        StartCoroutine(InGame());
     }
 
-    IEnumerator PlayerTurn()
+    IEnumerator InGame()
     {
-        //Debug.Log("Player turn started");
+        Debug.Log("Game started");
 
-        // This should have any setup for the player's turn
-        // Once state is flipped to PLAYERTURN, player can move
         yield return null;
 
-        state = GameState.PLAYERTURN;
+        state = GameState.INGAME;
     }
 
-    // Called from ball manager when player turn is complete?
-    public void PlayerTurnOver()
-    {
-        StartCoroutine(EnemyTurn());
-    }
+    // IEnumerator PlayerTurn()
+    // {
+    //     //Debug.Log("Player turn started");
 
-    IEnumerator EnemyTurn()
-    {
-        //Debug.Log("Enemy turn started");
-        state = GameState.ENEMYTURN;
+    //     // This should have any setup for the player's turn
+    //     // Once state is flipped to PLAYERTURN, player can move
+    //     yield return null;
 
-        yield return new WaitForSeconds(.1f);
+    //     state = GameState.PLAYERTURN;
+    // }
 
-        // Call world move and wait
-        //Debug.Log("World start moving");
-        yield return StartCoroutine(GridManager.manager.MoveBlocks(false));
-        //Debug.Log("World done moving");
+    // // Called from ball manager when player turn is complete?
+    // public void PlayerTurnOver()
+    // {
+    //     StartCoroutine(EnemyTurn());
+    // }
 
-        //yield return new WaitForSeconds(.5f);
+    // IEnumerator EnemyTurn()
+    // {
+    //     //Debug.Log("Enemy turn started");
+    //     state = GameState.ENEMYTURN;
 
-        // Call enemy move and wait
-        //Debug.Log("Enemy start moving");
-        if (state == GameState.ENEMYTURN)
-            yield return StartCoroutine(GridManager.manager.MoveEnemies());
-        //Debug.Log("Enemy done moving");
+    //     yield return new WaitForSeconds(.1f);
 
-        GameEvents.current.EnemyTurnEnd();
+    //     // Call world move and wait
+    //     //Debug.Log("World start moving");
+    //     yield return StartCoroutine(GridManager.manager.MoveBlocks(false));
+    //     //Debug.Log("World done moving");
+
+    //     //yield return new WaitForSeconds(.5f);
+
+    //     // Call enemy move and wait
+    //     //Debug.Log("Enemy start moving");
+    //     if (state == GameState.ENEMYTURN)
+    //         yield return StartCoroutine(GridManager.manager.MoveEnemies());
+    //     //Debug.Log("Enemy done moving");
+
+    //     GameEvents.current.EnemyTurnEnd();
         
-        // End enemy turn
-        if (state == GameState.ENEMYTURN)
-        {
-            StartCoroutine(PlayerTurn());
-        }
-    }
+    //     // End enemy turn
+    //     if (state == GameState.ENEMYTURN)
+    //     {
+    //         StartCoroutine(PlayerTurn());
+    //     }
+    // }
 
     // Won and Lost should be called from GridManager
     public IEnumerator LevelWon()
