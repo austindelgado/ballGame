@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using UnityEngine.SceneManagement;
 
-public enum GameState { START, INGAME, WON, LOST }
+public enum GameState { START, MOVING, STOPPED, WON, LOST }
 
 public class GameManager : MonoBehaviour
 {
@@ -52,16 +52,30 @@ public class GameManager : MonoBehaviour
         yield return StartCoroutine(platMover.MoveStart());
 
         // Once this is done, it's the player's turn
-        StartCoroutine(InGame());
+        StartCoroutine(Moving());
     }
 
-    IEnumerator InGame()
+    IEnumerator Moving()
     {
-        Debug.Log("Game started");
+        Debug.Log("Moving");
 
         yield return null;
 
-        state = GameState.INGAME;
+        state = GameState.MOVING;
+    }
+
+    public void Stop()
+    {
+        StartCoroutine(Stopped());
+    }
+
+    IEnumerator Stopped()
+    {
+        Debug.Log("Moving");
+
+        yield return null;
+
+        state = GameState.STOPPED;
     }
 
     // IEnumerator PlayerTurn()

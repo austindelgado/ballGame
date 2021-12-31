@@ -10,8 +10,6 @@ public class PlatformMover : MonoBehaviour
     public float startSpeed;
     public float endSpeed;
 
-    public Collider2D playerCol;
-
     public IEnumerator MoveStart()
     {
         origPos = transform.position;

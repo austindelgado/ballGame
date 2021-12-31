@@ -89,7 +89,7 @@ public class GridManager : MonoBehaviour
         SpawnBlocks(currentArea.startingBuffer);
         SpawnEnemies(currentArea.startingBuffer + currentArea.enemySpawnBuffer);
         RemoveBlocks();
-        MoveBlocks(true);
+        //MoveBlocks(true);
         CheckAllGravity(true);
         CheckAllGravity(true); // Still random floating blocks for some reason
     }

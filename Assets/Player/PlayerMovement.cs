@@ -33,17 +33,13 @@ public class PlayerMovement : MonoBehaviour
     // For input
     void Update()
     {
-        rb.MovePosition(rb.position + move.normalized * GlobalData.Instance.playerSpeed * Time.fixedDeltaTime);
+        Debug.Log(move.normalized);
 
         if (move != Vector2.zero)
             animator.SetInteger("Speed", 1);
         else
             animator.SetInteger("Speed", -1);
-    }
 
-    // Actual movement
-    void FixedUpdate()
-    {
         if (lookDir.x < 0)
         {
             spriteRenderer.flipX = false;
@@ -54,6 +50,16 @@ public class PlayerMovement : MonoBehaviour
             spriteRenderer.flipX = true;
             lookLeft = false;
         }
+    }
+
+    // Actual movement
+    void FixedUpdate()
+    {
+        //rb.MovePosition((Vector2)transform.position + move.normalized * GlobalData.Instance.playerSpeed * Time.deltaTime);
+
+        Vector2 moveFactor = new Vector2(move.normalized.x * 40f * GlobalData.Instance.playerSpeed * Time.fixedDeltaTime, rb.velocity.y); // The 40f here is based off nothing but will need to change if the scale of the game changes
+
+        rb.velocity = moveFactor;
     }
 
     void OnMove(InputValue value)

@@ -73,7 +73,7 @@ public class ballLauncher : MonoBehaviour
             if (aim)
                 Aim();
 
-            if (GameManager.manager.state == GameState.INGAME)
+            if (GameManager.manager.state == GameState.MOVING)
             {
                 // Get next shot ready
                 if (parent.childCount < totalBalls)
@@ -151,7 +151,7 @@ public class ballLauncher : MonoBehaviour
     {
         Debug.Log("Aiming");
 
-        if (parent.childCount < totalBalls && canShoot && GameManager.manager.state == GameState.INGAME)
+        if (parent.childCount < totalBalls && canShoot && GameManager.manager.state == GameState.MOVING)
         {
             // Raycasting
             RaycastHit2D hit = Physics2D.CircleCast(transform.position, GlobalData.Instance.ballSize, player.lookDir);
@@ -200,7 +200,7 @@ public class ballLauncher : MonoBehaviour
 
     void Shoot()
     {
-        if (parent.childCount < totalBalls && GameManager.manager.state == GameState.INGAME)
+        if (parent.childCount < totalBalls && GameManager.manager.state == GameState.MOVING)
         {
             lineRend.positionCount = 0;
             shotFired = true;
