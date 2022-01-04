@@ -28,6 +28,8 @@ public class ballObject : MonoBehaviour
     public float currentHealth;
     public LayerMask ballLayer;
 
+    public Transform popUpPref; // Please move, look at CodeMonkey video
+
     [Header("HP Colors")]
     public Color fullHealth;
     public Color five;
@@ -39,18 +41,15 @@ public class ballObject : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Subscribe to blockBreak
-        GameEvents.current.OnBlockBreak += this.Bounce;
+        shotSpeed = 8;
+        startingHealth = 7;
 
-        launchManager = GameObject.Find("Ball Launcher");
-        shotSpeed = launchManager.GetComponent<ballLauncher>().ballSpeed;
-        startingHealth = GlobalData.Instance.ballStartingHealth;
         if (currentHealth == 0)
             currentHealth = startingHealth;
 
         // Change size for circleCast but change scale on ball
         //size = GlobalData.Instance.ballSize;
-        damage = GlobalData.Instance.baseDamage;
+        damage = 1;
         //gameObject.transform.localScale = new Vector3(size * 2, size * 2, 1);
 
         rb = GetComponent<Rigidbody2D>();
@@ -59,14 +58,9 @@ public class ballObject : MonoBehaviour
         //Bounce();
     }
 
-    void OnDestroy()
-    {
-        GameEvents.current.OnBlockBreak -= this.Bounce;
-    }
-
     void Update()
     {
-        // Change color depending on HP
+        // // Change color depending on HP
         if (currentHealth > 5)
             spriteRenderer.color = fullHealth;
         else if (currentHealth == 5)
@@ -79,24 +73,6 @@ public class ballObject : MonoBehaviour
             spriteRenderer.color = two;
         else if (currentHealth == 1)
             spriteRenderer.color = one;
-    }
-
-    void FixedUpdate()
-    {
-        // if (!bouncing)
-        // {
-        //     float step = shotSpeed * Time.fixedDeltaTime;
-        //     transform.position = Vector2.MoveTowards(transform.position, nextPosition, step);
-        // }
-
-        // //if (nextPosition == (Vector2)transform.position) // I think this is too imprecise
-        // if (Vector2.Distance((Vector2)transform.position, nextPosition) < 0.0001f)
-        // {
-        //     //Debug.Log("Actual: " + transform.position.ToString("F4") + ", Expected: " + nextPosition.ToString("F4"));
-        //     transform.position = nextPosition;
-        //     currDirection = nextDirection;
-        //     Bounce();
-        // }
     }
 
     public void Bounce()
@@ -191,12 +167,7 @@ public class ballObject : MonoBehaviour
             if (!collision.gameObject.transform.parent.gameObject.transform.parent.GetComponent<blockObject>().hitThisUpdate)
             {
                 currentHealth = startingHealth;
-                launchManager.GetComponent<ballLauncher>().currentHits++;
 
-                // Global hit call goes here, pass in collision object
-                //Debug.Log("Block Hit");
-                collision.gameObject.transform.parent.gameObject.transform.parent.GetComponent<blockObject>().AddDamage(damage);
-                GameEvents.current.BallHit(collision.gameObject.transform.parent.gameObject.transform.parent.gameObject);
             }
         }
         else if (collision.gameObject.tag == "Player")
@@ -208,8 +179,6 @@ public class ballObject : MonoBehaviour
             currentHealth--;
             if (currentHealth <= 0)
                 Destroy(gameObject);
-
-            GameEvents.current.BallHit(collision.gameObject);
         }
     }
 
@@ -242,16 +211,8 @@ public class ballObject : MonoBehaviour
         }
         else if (collision.gameObject.tag == "Enemy") // It only gets worse
         {
-            if (!collision.gameObject.transform.parent.gameObject.transform.parent.GetComponent<blockObject>().hitThisUpdate)
-            {
-                currentHealth = startingHealth;
-                launchManager.GetComponent<ballLauncher>().currentHits++;
-
-                // Global hit call goes here, pass in collision object
-                //Debug.Log("Block Hit");
-                collision.gameObject.transform.parent.gameObject.transform.parent.GetComponent<blockObject>().AddDamage(damage);
-                GameEvents.current.BallHit(collision.gameObject.transform.parent.gameObject.transform.parent.gameObject);
-            }
+            currentHealth = startingHealth;
+            DamagePopUp.Create(transform.position, damage, popUpPref);
         }
         else if (collision.gameObject.tag == "Player")
         {
@@ -262,8 +223,6 @@ public class ballObject : MonoBehaviour
             currentHealth--;
             if (currentHealth <= 0)
                 Destroy(gameObject);
-
-            GameEvents.current.BallHit(collision.gameObject);
         }
     }
 

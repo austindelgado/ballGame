@@ -1,13 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
-    PlayerController controls;
-
     public Rigidbody2D rb;
     public Animator animator;
 
@@ -18,7 +15,9 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 lookDir;
     public bool lookLeft;
 
-    // This is not pretty, change this
+    public float playerSpeed;
+
+    // // This is not pretty, change this
     public ShopSlot currentShopSlot = null;
 
     public ballLauncher bLauncher;
@@ -50,55 +49,58 @@ public class PlayerMovement : MonoBehaviour
             spriteRenderer.flipX = true;
             lookLeft = false;
         }
+
+        move.x = Input.GetAxisRaw("Horizontal");
+        move.y = Input.GetAxisRaw("Vertical");
+
+        lookDir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+
+        if (Input.GetKeyDown("escape"))
+            OnEscape();
     }
 
     // Actual movement
     void FixedUpdate()
     {
-        //rb.MovePosition((Vector2)transform.position + move.normalized * GlobalData.Instance.playerSpeed * Time.deltaTime);
-
-        Vector2 moveFactor = new Vector2(move.normalized.x * 40f * GlobalData.Instance.playerSpeed * Time.fixedDeltaTime, rb.velocity.y); // The 40f here is based off nothing but will need to change if the scale of the game changes
-
-        rb.velocity = moveFactor;
+        rb.MovePosition(rb.position + move.normalized * playerSpeed * Time.fixedDeltaTime);
     }
 
-    void OnMove(InputValue value)
+    void OnMove()
     {
         Debug.Log("OnMove");
-        move = value.Get<Vector2>();
     }
 
-    void OnLook(InputValue value)
+    void OnLook()
     {
         Debug.Log("OnLook");
-        lookDir = value.Get<Vector2>();
     }
 
     void OnInteract()
     {
-        if (currentShopSlot)
-            currentShopSlot.Purchase();
+        // if (currentShopSlot)
+        //     currentShopSlot.Purchase();
     }
 
     void OnEscape()
     {
-        Destroy(GlobalData.Instance);
-        SceneManager.LoadScene(0);
+        //Destroy(GlobalData.Instance);
+        Debug.Log("Application quit");
+        Application.Quit();
     }
 
-    void OnMouseLook(InputValue value)
+    void OnMouseLook()
     {
         Debug.Log("OnMouseLook");
-        lookDir = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()) - transform.position;
+        //lookDir = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()) - transform.position;
     }
 
     public void ToggleShoot()
     {
-        bLauncher.canShoot = !bLauncher.canShoot;
+        //bLauncher.canShoot = !bLauncher.canShoot;
     }
 
     public void ToggleMelee()
     {
-        mWeapon.canAttack = !mWeapon.canAttack;
+        //mWeapon.canAttack = !mWeapon.canAttack;
     }
 }

@@ -27,7 +27,7 @@ MonoBehaviour:
   enemySpawnBuffer: 8
   maxBlockSize: 4
   minBlockSize: 3
-  deletePercentage: 0.5
+  deletePercentage: 0.75
   gemChance: 0.1
   chanceUp: 1
   chanceRight: 1

@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class MeleeWeapon : MonoBehaviour
 {
@@ -16,6 +15,7 @@ public class MeleeWeapon : MonoBehaviour
     private float timeBtwAttack;
     public bool canAttack;
     public bool offCooldown;
+    public float attackCD = .5f;
     private Vector2 attackPos;
     public float attackOffset;
     public LayerMask layer;
@@ -42,15 +42,20 @@ public class MeleeWeapon : MonoBehaviour
             offCooldown = true;
         else
             timeBtwAttack -= Time.deltaTime;
+
+        if (Input.GetButton("Fire1"))
+        {
+            Attack();
+        }
     }
 
-    void OnAttack()
+    void Attack()
     {
         if (canAttack && offCooldown)
         {
             // Start cooldown
             offCooldown = false;
-            timeBtwAttack = GlobalData.Instance.attackCD;
+            timeBtwAttack = attackCD;
 
             //angle = angle * -1;
             //angleOffset = Quaternion.AngleAxis(angle, Vector3.forward);
@@ -62,52 +67,13 @@ public class MeleeWeapon : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("Bat collision");
+
         if (collision.gameObject.tag == "Ball")
         {
-            // Send ball other way
-            if (GlobalData.Instance.split)
-            {
-                Debug.Log("Split hit");
-                if (collision.gameObject.GetComponent<ballObject>().size > .25f) // Split ball if it's greater than .25
-                {
-                    // Spawn two new balls after destroying old one
-                    float size = collision.gameObject.GetComponent<ballObject>().size * .5f;
-                    float health = collision.gameObject.GetComponent<ballObject>().currentHealth;
-                    Vector2 pos = collision.gameObject.transform.position; // Half of original size
-                    Destroy(collision.gameObject);
-
-                    // Ball 1
-                    GameObject ball1 = Instantiate(ballPrefab, pos, transform.rotation, parent);
-                    new StraightShot().Launch(ball1, angleOffsetR * player.lookDir);
-                    ball1.GetComponent<ballObject>().Size(size);
-                    ball1.GetComponent<ballObject>().currentHealth = health;
-
-                    // Ball 2
-                    GameObject ball2 = Instantiate(ballPrefab, pos, transform.rotation, parent);
-                    new StraightShot().Launch(ball2, angleOffsetL * player.lookDir);
-                    ball2.GetComponent<ballObject>().Size(size);
-                    ball2.GetComponent<ballObject>().currentHealth = health;
-                }
-                else
-                {
-                    collision.gameObject.GetComponent<ballObject>().currDirection = player.lookDir;
-                    collision.gameObject.GetComponent<ballObject>().Bounce();
-                    collision.gameObject.GetComponent<ballObject>().shotSpeed += 5f;
-                }
-            }
-            else
-            {
-                Debug.Log("Ball hit");
-                collision.gameObject.GetComponent<ballObject>().damage++;
-                collision.gameObject.GetComponent<ballObject>().shotSpeed += 5f;
-                collision.gameObject.GetComponent<ballObject>().Hit(player.lookDir);
-            }
+            Debug.Log("Ball hit");
+            collision.gameObject.GetComponent<ballObject>().damage++;
+            collision.gameObject.GetComponent<ballObject>().shotSpeed += 2f;
+            collision.gameObject.GetComponent<ballObject>().Hit(player.lookDir);
         }
-    }
-
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(attackPos, attackRange);
     }
 }
