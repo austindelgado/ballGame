@@ -26,6 +26,12 @@ public class TerrainManager : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        if (GameManager.manager.state == GameState.MOVING)
+            Debug.Log("TerrainManager moving");
+    }
+
     // Descends down by world spacing
     // Add parallax movement alongside this
     public IEnumerator Move(int worldSpacing)

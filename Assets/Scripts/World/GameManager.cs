@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using UnityEngine.SceneManagement;
 
-public enum GameState { START, PLAYERTURN, ENEMYTURN, WON, LOST }
+public enum GameState { START, MOVING, STOPPED, WON, LOST }
 
 public class GameManager : MonoBehaviour
 {
@@ -52,54 +52,77 @@ public class GameManager : MonoBehaviour
         yield return StartCoroutine(platMover.MoveStart());
 
         // Once this is done, it's the player's turn
-        StartCoroutine(PlayerTurn());
+        StartCoroutine(Moving());
     }
 
-    IEnumerator PlayerTurn()
+    IEnumerator Moving()
     {
-        //Debug.Log("Player turn started");
+        Debug.Log("Moving");
 
-        // This should have any setup for the player's turn
-        // Once state is flipped to PLAYERTURN, player can move
         yield return null;
 
-        state = GameState.PLAYERTURN;
+        state = GameState.MOVING;
     }
 
-    // Called from ball manager when player turn is complete?
-    public void PlayerTurnOver()
+    public void Stop()
     {
-        StartCoroutine(EnemyTurn());
+        StartCoroutine(Stopped());
     }
 
-    IEnumerator EnemyTurn()
+    IEnumerator Stopped()
     {
-        //Debug.Log("Enemy turn started");
-        state = GameState.ENEMYTURN;
+        Debug.Log("Moving");
 
-        yield return new WaitForSeconds(.1f);
+        yield return null;
 
-        // Call world move and wait
-        //Debug.Log("World start moving");
-        yield return StartCoroutine(GridManager.manager.MoveBlocks(false));
-        //Debug.Log("World done moving");
+        state = GameState.STOPPED;
+    }
 
-        //yield return new WaitForSeconds(.5f);
+    // IEnumerator PlayerTurn()
+    // {
+    //     //Debug.Log("Player turn started");
 
-        // Call enemy move and wait
-        //Debug.Log("Enemy start moving");
-        if (state == GameState.ENEMYTURN)
-            yield return StartCoroutine(GridManager.manager.MoveEnemies());
-        //Debug.Log("Enemy done moving");
+    //     // This should have any setup for the player's turn
+    //     // Once state is flipped to PLAYERTURN, player can move
+    //     yield return null;
 
-        GameEvents.current.EnemyTurnEnd();
+    //     state = GameState.PLAYERTURN;
+    // }
+
+    // // Called from ball manager when player turn is complete?
+    // public void PlayerTurnOver()
+    // {
+    //     StartCoroutine(EnemyTurn());
+    // }
+
+    // IEnumerator EnemyTurn()
+    // {
+    //     //Debug.Log("Enemy turn started");
+    //     state = GameState.ENEMYTURN;
+
+    //     yield return new WaitForSeconds(.1f);
+
+    //     // Call world move and wait
+    //     //Debug.Log("World start moving");
+    //     yield return StartCoroutine(GridManager.manager.MoveBlocks(false));
+    //     //Debug.Log("World done moving");
+
+    //     //yield return new WaitForSeconds(.5f);
+
+    //     // Call enemy move and wait
+    //     //Debug.Log("Enemy start moving");
+    //     if (state == GameState.ENEMYTURN)
+    //         yield return StartCoroutine(GridManager.manager.MoveEnemies());
+    //     //Debug.Log("Enemy done moving");
+
+    //     GameEvents.current.EnemyTurnEnd();
         
-        // End enemy turn
-        if (state == GameState.ENEMYTURN)
-        {
-            StartCoroutine(PlayerTurn());
-        }
-    }
+    //     // End enemy turn
+    //     if (state == GameState.ENEMYTURN)
+    //     {
+    //         StartCoroutine(PlayerTurn());
+    //     }
+    // }
 
     // Won and Lost should be called from GridManager
     public IEnumerator LevelWon()
@@ -112,8 +135,14 @@ public class GameManager : MonoBehaviour
         //inGameUI.SetActive(false);
         yield return StartCoroutine(platMover.MoveEnd());
 
-        // Move to next scene
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        // Increment player level count
+        GlobalData.Instance.areaNum++;
+
+        // // Move to next scene
+        // if (GlobalData.Instance.areaNum % 2 == 0)
+        //     SceneManager.LoadScene(2);
+        // else
+            SceneManager.LoadScene(1);
 
         yield return null;
     }
@@ -128,8 +157,8 @@ public class GameManager : MonoBehaviour
         //inGameUI.SetActive(false);
 
         // Back to menu
-        SceneManager.LoadScene(0);
         Destroy(GlobalData.Instance);
+        SceneManager.LoadScene(0);
 
         yield return null;
     }

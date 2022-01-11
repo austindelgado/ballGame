@@ -8,7 +8,13 @@ public class terrainMover : MonoBehaviour
     Vector2 origPos;
     Vector2 targetPos;
     public float depthMod;
-    private float baseSpeed;
+    public float baseSpeed;
+
+    void Update()
+    {
+        if (GameManager.manager.state == GameState.MOVING)
+            transform.Translate(Vector2.down * baseSpeed * Time.deltaTime);
+    }
 
     public IEnumerator Move(int worldSpacing, float baseSpeed)
     {

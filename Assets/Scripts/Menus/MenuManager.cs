@@ -23,6 +23,7 @@ public class MenuManager : MonoBehaviour
 
     public void ReturnMain()
     {
+        Destroy(GlobalData.Instance);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 }

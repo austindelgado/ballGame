@@ -14,8 +14,13 @@ public class Area : ScriptableObject
     public Texture bg;
 
     [Header("Level Generation")]
-    public int depth;
     public float depthMod;
+    public int startingX;
+    public int startingY;
+    public int rows;
+    public int cols;
+    public int startingBuffer;
+    public int enemySpawnBuffer;
     public int maxBlockSize;
     public int minBlockSize;
     public float deletePercentage;
